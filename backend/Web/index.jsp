@@ -51,12 +51,12 @@
 <!--Datenbank auslesen-->
 <%
 	//ConnectionController cc = ConnectionController.sharedInstance();
-	UserController uc =  new UserController();
+	UserController uc =  UserController.sharedInstance();
 	User a = uc.findById(1);
 	
 	out.println(a.email);
 	
-	ArticleController ac = new ArticleController();
+	ArticleController ac = ArticleController.sharedInstance();
 	List<Article> articles = ac.findAll();
 	
 	out.println("<table>");
