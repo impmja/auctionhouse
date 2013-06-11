@@ -45,22 +45,22 @@
 	}
 	try {
 		Connection conn = DriverManager.getConnection(
-				"jdbc:postgresql:auctionhouse", "auctionhouse_root", "1234");
+				"jdbc:postgresql:studdb_marth", "marth", "yxcv1234");
 
 		Statement stmt = conn.createStatement();
 		ResultSet rs;
 
-		rs = stmt.executeQuery("SELECT * FROM article");
+		rs = stmt.executeQuery("SELECT * FROM veranstaltung");
 
 		out.println("<table>");
 		while (rs.next()) {
-			String veranstaltungid = rs.getString("id");
-			String name = rs.getString("title");
-			String creditpoints = rs.getString("seller_id");
-			String dozentid = rs.getString("start_price");
-			out.println("<tr><td>" + veranstaltungid + "</td><td>"
+			String veranstaltungid = rs.getString("veranstaltungid");
+			String name = rs.getString("name");
+			String creditpoints = rs.getString("creditpoints");
+			String dozentid = rs.getString("dozentid");
+			out.println("<a href=\"http://www.ebay.de\"><tr><td>" + veranstaltungid + "</td><td>"
 					+ name + "</td><td>" + creditpoints + "</td><td>"
-					+ dozentid + "</td></tr>");
+					+ dozentid + "</td></tr></a>");
 		}
 		out.println("</table>");
 

@@ -8,9 +8,9 @@ body {
 	width:800px;
 	height:100px;
 	background-color:lightgrey;
-	border: 5px ridge lightgrey;
+	border: 3px ridge lightgrey;
+	border-bottom:none;
 	padding:20px;
-	
 	font-size:25pt;
 }
 
@@ -22,14 +22,18 @@ body {
 }
 
 table {
-	width:850px;
+	width:846px;
 	vertical-align:bottom;
 	border:2px solid grey;
 }
 
 td { 
 	padding: 20px;	
-	border:2px solid grey; 
+	border:1px solid grey; 
+}
+
+tr:hover {
+	background-color:lightblue;
 }
 
 #form {
