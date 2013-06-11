@@ -35,6 +35,9 @@ CREATE TABLE Users (
   country VARCHAR(256) NOT NULL
 );
 
+GRANT ALL PRIVILEGES ON Users TO auctionhouse_root;
+
+
 -- Inser Test User
 INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country) 
 VALUES (DEFAULT, 'info@herwig-hensler.de', '1234', 'Herwig', 'Henseler', 'Lehms 9', '26197', 'Großenkneten', 'Niedersachsen', 'Deutschland');
@@ -58,11 +61,16 @@ CREATE TABLE Article (
   creation_date TIMESTAMP NOT NULL DEFAULT current_timestamp
  );
 
+GRANT ALL PRIVILEGES ON Article TO auctionhouse_root;
+
 -- Insert Test Article
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 1, NULL, 'Vorlesungsscript', 'Datenbank und Web - Vorlesungsscript. Zustand: Gut erhalten (leichte Gebrauchsspuren)!', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 1, NULL, 'Db und Web - Gute Note', 'Datenbank und Web - Verkaufe gute Noten gegen Bares!', TRUE, 10000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 2, NULL, 'Code for Food', 'Programmiere für futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
+
 
 
 -- Create Image Table
@@ -72,6 +80,8 @@ CREATE TABLE Image (
   uri VARCHAR(256) NOT NULL,
   creation_date TIMESTAMP NULL DEFAULT current_timestamp
  );
+
+GRANT ALL PRIVILEGES ON Image TO auctionhouse_root;
 
 
 -- Create Bid Table
@@ -83,6 +93,9 @@ CREATE TABLE Bid (
   bid_date TIMESTAMP NULL DEFAULT current_timestamp
  );
 
+GRANT ALL PRIVILEGES ON Bid TO auctionhouse_root;
+
+
 
 -- Create Purchases Table
 CREATE TABLE Purchases (
@@ -93,6 +106,9 @@ CREATE TABLE Purchases (
   purchase_date TIMESTAMP NULL DEFAULT current_timestamp
  );
 
+GRANT ALL PRIVILEGES ON Purchases TO auctionhouse_root;
+
+
 
 -- Create Comments Table
 CREATE TABLE Comments (
@@ -102,6 +118,8 @@ CREATE TABLE Comments (
   comment VARCHAR(256) NOT NULL,
   creation_date TIMESTAMP NULL DEFAULT current_timestamp
  );
+
+GRANT ALL PRIVILEGES ON Comments TO auctionhouse_root;
 
 
 
