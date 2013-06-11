@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectionController {
-	private static ConnectionController gConnectionController;
+	private static ConnectionController sharedConnectionController;
 	
 	private Connection mConnection;
 	
-	public ConnectionController() throws SQLException {
+	private ConnectionController() throws SQLException {
 		try {
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
@@ -22,10 +22,10 @@ public class ConnectionController {
 
 	// Singleton
 	public static ConnectionController sharedInstance() throws SQLException {
-		if (gConnectionController == null) {
-			gConnectionController = new ConnectionController();
+		if (sharedConnectionController == null) {
+			sharedConnectionController = new ConnectionController();
 		}
-		return gConnectionController;
+		return sharedConnectionController;
 	}
 	
 	public Statement newStatement() throws SQLException {

@@ -9,9 +9,19 @@ import de.auctionhouse.model.User;
 
 public class UserController {
 	
-	public UserController() {
+	private static UserController sharedUserController;
+	
+	
+	private UserController() {
 	}
 	
+	// Singleton
+	public static UserController sharedInstance() throws SQLException {
+		if (sharedUserController == null) {
+			sharedUserController = new UserController();
+		}
+		return sharedUserController;
+	}
 	
 	public User findById(int _id) throws SQLException {
 		

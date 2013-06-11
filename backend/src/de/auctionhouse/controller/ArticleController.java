@@ -10,10 +10,19 @@ import de.auctionhouse.model.Article;
 
 public class ArticleController {
 
-	public ArticleController() {
+	private static ArticleController sharedArticleController;
+	
+	private ArticleController() {
 	}
 	
-	
+	// Singleton
+	public static ArticleController sharedInstance() throws SQLException {
+		if (sharedArticleController == null) {
+			sharedArticleController = new ArticleController();
+		}
+		return sharedArticleController;
+	}
+		
 	public Article findById(int _id) throws SQLException {
 		
 		Statement stmt = ConnectionController.sharedInstance().newStatement();
