@@ -1,0 +1,39 @@
+@CHARSET "ISO-8859-1";
+
+body {
+
+}
+
+#header {
+	width:800px;
+	height:100px;
+	background-color:lightgrey;
+	border: 5px ridge lightgrey;
+	padding:20px;
+	
+	font-size:25pt;
+}
+
+#content {
+	width:808px;
+	background-color:lightgrey;
+	border: 1px solid black;
+	padding:20px;
+}
+
+table {
+	width:850px;
+	vertical-align:bottom;
+	border:2px solid grey;
+}
+
+td { 
+	padding: 20px;	
+	border:2px solid grey; 
+}
+
+#form {
+	position:relative;
+	left:650px;
+	margin-top:-60px;
+}
