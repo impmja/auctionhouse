@@ -2,6 +2,7 @@ package de.auctionhouse.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -30,5 +31,9 @@ public class ConnectionController {
 	
 	public Statement newStatement() throws SQLException {
 		return this.mConnection.createStatement();
+	}
+	
+	public PreparedStatement newPreparedStatement(String _statement) throws SQLException {
+		return this.mConnection.prepareStatement(_statement);
 	}
 }

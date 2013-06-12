@@ -2,6 +2,7 @@ package de.auctionhouse.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class User implements IModel {
 	public int			id;
@@ -14,7 +15,7 @@ public class User implements IModel {
 	public String		city;
 	public String		state;
 	public String		country;
-	
+	public Date			creationDate;
 	
 	public User(ResultSet _result) throws SQLException {
 		this.loadFrom(_result);
@@ -32,6 +33,7 @@ public class User implements IModel {
 		city = _result.getString("city");
 		state = _result.getString("state");
 		country = _result.getString("country");
+		creationDate = _result.getTimestamp("creation_date");
 	}
 	
 }

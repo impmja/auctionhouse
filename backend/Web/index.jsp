@@ -4,57 +4,38 @@
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page language="java" import="java.sql.*"%>
 <%@ page language="java" import="java.util.List"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<%
-	String email = request.getParameter( "email" );
-   session.setAttribute( "theMail", email );
-%>
-
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div id="header">eBay 2.0
-	<div id="form">
-	<%
-		if ( session.getAttribute( "theMail" ) != null) {
-	%>
-		Sie sind angemeldet als: <%
-		session.getAttribute( "theMail" ) ; 
-			}
-			else {
-	%>
-		<form action="SaveSession.jsp" method="post" onsubmit="return verifyForm(this);">
-		<p><input name="email" type="text" size="20" value="E-Mail"></p>
-		<p><input name="password" type="password" size="20" value="******"></p>
-		<input type="submit" name="login" value="Login">
-		</form>
-		<form action="form.jsp" method="post">
-		<input type="submit" name="register" value="Register">
-		</form>
-	</div>
-	<%
+<!--Datenbank auslesen-->
+<%
+	// Login request?
+	if (request.getParameter("is_login") != null) {
+		UserController uc = UserController.sharedInstance();
+		try {
+			User user = uc.login(request.getParameter("email"), request.getParameter("password"));
+			//out.println("User: " + user.email);
+			session.setAttribute("userId", user.id);
+		} catch(SQLException e) {
+			out.println("Fehler beim Login!");
 		}
-	%>
-</div>
+	}
+
+%>
+	<jsp:include page="header.jsp" />
 
 
 <!--Datenbank auslesen-->
 <%
-	//ConnectionController cc = ConnectionController.sharedInstance();
-	UserController uc =  UserController.sharedInstance();
-	User a = uc.findById(1);
-	
-	out.println(a.email);
 	
 	ArticleController ac = ArticleController.sharedInstance();
 	List<Article> articles = ac.findAll();
@@ -63,7 +44,7 @@
 	for (Article article : articles) {
 		out.println("<tr><td>" + article.id + "</td><td>"
 				+ article.title + "</td><td>" + article.description + "</td><td>"
-				+ article.startPrice + "</td></tr>");
+				+ article.endDate + "</td></tr>");
 	}
 	out.println("</table>");
 	

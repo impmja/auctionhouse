@@ -32,19 +32,20 @@ CREATE TABLE Users (
   zip_code VARCHAR(20) NOT NULL ,
   city VARCHAR(256) NOT NULL ,
   state VARCHAR(256) NOT NULL ,
-  country VARCHAR(256) NOT NULL
+  country VARCHAR(256) NOT NULL,
+  creation_date TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
 GRANT ALL PRIVILEGES ON Users TO auctionhouse_root;
 
 
 -- Inser Test User
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country) 
-VALUES (DEFAULT, 'info@herwig-hensler.de', '1234', 'Herwig', 'Henseler', 'Lehms 9', '26197', 'Großenkneten', 'Niedersachsen', 'Deutschland');
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country) 
-VALUES (DEFAULT, 'impmja@gmx.de', '4321', 'Jan', 'Schulte', 'Spittaler Str. 1B', '28359', 'Bremen', 'Bremen', 'Deutschland');
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country) 
-VALUES (DEFAULT, 'm.palser@gmx.de', 'yxcv1234', 'Marvin', 'Palser', 'Thomas-Mann-Straße 5', '29614', 'Soltau', 'Niedersachsen', 'Deutschland');
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'info@herwig-hensler.de', '1234', 'Herwig', 'Henseler', 'Lehms 9', '26197', 'Großenkneten', 'Niedersachsen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'impmja@gmx.de', '4321', 'Jan', 'Schulte', 'Spittaler Str. 1B', '28359', 'Bremen', 'Bremen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'm.palser@gmx.de', 'yxcv1234', 'Marvin', 'Palser', 'Thomas-Mann-Straße 5', '29614', 'Soltau', 'Niedersachsen', 'Deutschland', DEFAULT);
 
 
 

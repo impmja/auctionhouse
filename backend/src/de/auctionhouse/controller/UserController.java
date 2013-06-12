@@ -1,9 +1,9 @@
 package de.auctionhouse.controller;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 
 import de.auctionhouse.model.User;
 
@@ -26,7 +26,7 @@ public class UserController {
 	public User findById(int _id) throws SQLException {
 		
 		Statement stmt = ConnectionController.sharedInstance().newStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM users where id =" + _id);
+		ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE id =" + _id);
 		rs.next();
 		
 		return new User(rs);	
@@ -34,15 +34,15 @@ public class UserController {
 	
 	public User login(String _email, String _password) throws SQLException {
 		
-		Statement stmt = ConnectionController.sharedInstance().newStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM users where email =" + _email);
+		PreparedStatement stmt = ConnectionController.sharedInstance().newPreparedStatement("SELECT * FROM Users WHERE email = ?");
+		stmt.setString(1, _email);
+		ResultSet rs = stmt.executeQuery();
+		
 		try {
 			rs.next();
 			
 			User result = new User(rs);
-			if (result.password == _password) {
-				//session.setAttribute("id", result.id);
-				
+			if (result.password.equalsIgnoreCase(_password)) {
 				return result;
 			} else {
 				return null;
