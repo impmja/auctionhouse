@@ -42,9 +42,9 @@
 	
 	out.println("<table>");
 	for (Article article : articles) {
-		out.println("<tr><td>" + article.id + "</td><td>"
+		out.println("<a href=\"\"><tr><td>" + article.id + "</td><td>"
 				+ article.title + "</td><td>" + article.description + "</td><td>"
-				+ article.endDate + "</td></tr>");
+				+ article.startPrice + "</td></tr></a>");
 	}
 	out.println("</table>");
 	

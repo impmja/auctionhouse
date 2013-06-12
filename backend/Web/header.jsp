@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>#
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="de.auctionhouse.controller.UserController"%>
 <%@page import="de.auctionhouse.model.User"%>
@@ -26,11 +26,12 @@
 		}
 	}
 	else { %>
-		<form action="index.jsp" method="POST" onsubmit="return verifyForm(this);">
-			<p><input name="email" type="text" size="20" value="info@herwig-hensler.de"></p>
-			<p><input name="password" type="password" size="20" value="1234"></p>
-			<p><input name="is_login" type="hidden" value="true"></p>
-			<input type="submit" value="Login">
+		<form action="index.jsp" method="post" onsubmit="return verifyForm(this);">
+		<p><input name="email" type="text" size="20" value="E-Mail" onclick="this.value='';"
+		onblur="this.value=!this.value?'E-Mail':this.value;"></p>
+		<p><input name="password" type="password" size="20" value="******" onclick="this.value='';"
+		onblur="this.value=!this.value?'******':this.value;"></p>
+		<input type="submit" name="login" value="Login">
 		</form>
 		
 		<form action="form.jsp" method="post">
