@@ -16,21 +16,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<!--Datenbank auslesen-->
-<%
-	// Login request?
-	if (request.getParameter("is_login") != null) {
-		UserController uc = UserController.sharedInstance();
-		try {
-			User user = uc.login(request.getParameter("email"), request.getParameter("password"));
-			//out.println("User: " + user.email);
-			session.setAttribute("userId", user.id);
-		} catch(SQLException e) {
-			out.println("Fehler beim Login!");
-		}
-	}
 
-%>
 	<jsp:include page="header.jsp" />
 
 
