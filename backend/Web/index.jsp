@@ -12,7 +12,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Insert title here</title>
+	<title>eBay 2.0</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -20,69 +20,32 @@
 	<jsp:include page="header.jsp" />
 
 
-<!--Datenbank auslesen-->
+<!--Datenbank auslesen und Verlinkungen setzen-->
 <%
 	
 	ArticleController ac = ArticleController.sharedInstance();
 	List<Article> articles = ac.findAll();
 	
+	int counter = 1;
+	
 	out.println("<table>");
 	for (Article article : articles) {
-		out.println("<a href=\"\"><tr><td>" + article.id + "</td><td>"
-				+ article.title + "</td><td>" + article.description + "</td><td>"
-				+ article.startPrice + "</td></tr></a>");
+		out.println("<form id=\"" + counter + "\" action=\"auction.jsp\" method=\"post\"><tr><td><a href=\"javascript: submitform(" + counter +")\">" 
+				+ article.id + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
+				+ article.title + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
+				+ article.description + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
+				+ article.startPrice + "</a></td></tr><input type=\"hidden\" name=\"passId\" value=" 
+				+ article.id + "></form>");
+		counter++;
 	}
 	out.println("</table>");
-	
-/*
-	try {
-		Class.forName("org.postgresql.Driver");
-	} catch (ClassNotFoundException e) {
-		out.println("<h1>Driver not found:" + e + e.getMessage()
-		+ "</h1>");
-	}
-	try {
-		Connection conn = DriverManager.getConnection(
-		"jdbc:postgresql:auctionhouse", "auctionhouse_root", "1234");
-
-		Statement stmt = conn.createStatement();
-		ResultSet rs;
-
-		rs = stmt.executeQuery("SELECT * FROM article");
-
-		out.println("<table>");
-		while (rs.next()) {
-	String veranstaltungid = rs.getString("id");
-	String name = rs.getString("title");
-	String creditpoints = rs.getString("seller_id");
-	String dozentid = rs.getString("start_price");
-	out.println("<tr><td>" + veranstaltungid + "</td><td>"
-	+ name + "</td><td>" + creditpoints + "</td><td>"
-	+ dozentid + "</td></tr>");
-		}
-		out.println("</table>");
-
-		conn.close();
-	} catch (Exception e) {
-		out.println("<h1>exception: " + e + e.getMessage() + "</h1>");
-	}
-*/
 %>
 
-<!--Ueberprueft Formular auf Vollstaendigkeit-->
+<!--Fuehrt Forumlar mit entsprechender ID aus-->
 <script type="text/javascript"> 
-function verifyForm(formular) { 
-  if (formular.email.value == "") { 
-    alert("Please enter e-mail"); 
-    formular.name.focus(); 
-    return false; 
-  }
-  if (formular.lastname.value == "") { 
-    alert("Please enter a password"); 
-    formular.lastname.focus(); 
-    return false; 
-  }
-return true;
+function submitform(_id)
+{
+  document.getElementById(_id).submit();
 }
 </script>
 </body>

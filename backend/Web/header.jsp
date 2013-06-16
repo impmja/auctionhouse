@@ -35,7 +35,7 @@
 			out.println("<p>Sie sind angemeldet als: " + user.email + "</p>");	
 		} else { %>
 			<div id="form">
-				<form action="index.jsp" method="post" onsubmit="return verifyForm(this);">
+				<form action="index.jsp" method="post">
 				<p><input name="email" type="text" size="20" value="E-Mail" onclick="this.value='';"
 				onblur="this.value=!this.value?'E-Mail':this.value;"></p>
 				<p><input name="password" type="password" size="20" value="******" onclick="this.value='';"
@@ -55,20 +55,4 @@
 %>
 </div>
 </body>
-<!--Ueberprueft Formular auf Vollstaendigkeit-->
-<script type="text/javascript"> 
-function verifyForm(formular) { 
-  if (formular.email.value == "") { 
-    alert("Please enter e-mail"); 
-    formular.name.focus(); 
-    return false; 
-  }
-  if (formular.lastname.value == "") { 
-    alert("Please enter a password"); 
-    formular.lastname.focus(); 
-    return false; 
-  }
-return true;
-}
-</script>
 </html>
