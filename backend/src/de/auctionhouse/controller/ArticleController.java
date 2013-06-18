@@ -27,7 +27,6 @@ public class ArticleController {
 		
 		Statement stmt = ConnectionController.sharedInstance().newStatement();
 		
-		//ResultSet rs = stmt.executeQuery("SELECT * FROM Article AS a LEFT JOIN Users AS u ON a.seller_id = u.id WHERE a.id = " + _id);
 		ResultSet rs = stmt.executeQuery("SELECT * FROM Article AS a " +
 											"LEFT JOIN Users AS u ON a.seller_id = u.id " +
 											"LEFT JOIN Image AS i ON a.image_id = i.id " +
@@ -59,6 +58,10 @@ public class ArticleController {
 		}
 		
 		return result;
+	}
+
+	public void bidOnArticle(int _articleId, int _bid) {
+		
 	}
 	
 }
