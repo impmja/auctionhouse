@@ -17,12 +17,6 @@ public class CurrencyHelper {
 		DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) nf).getDecimalFormatSymbols();
 		decimalFormatSymbols.setCurrencySymbol("");
 		((DecimalFormat) nf).setDecimalFormatSymbols(decimalFormatSymbols);
-		return nf.format(Integer.parseInt(_value));
-		
-		/*
-		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.GERMANY);
-		format.setCurrency(Currency.getInstance("EUR"));
-		return format.format(Integer.parseInt(_value));
-		*/
+		return nf.format(Integer.parseInt(_value)).trim();
 	}
 }

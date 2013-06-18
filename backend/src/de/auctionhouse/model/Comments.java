@@ -2,22 +2,21 @@ package de.auctionhouse.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import de.auctionhouse.utils.DBUtils;
 
-public class Image implements IModel {
 
+public class Comments implements IModel {
+	
 	public Map<String, String>	fields = new HashMap<String, String>();
 	public Map<String, Object>	relations = new HashMap<String, Object>();
 	
 	public static final String RENAMED_FIELDS[] = { "image_id" };
-	public static final String FIELDS[] = { "id", "uri", "creation_date" };
+	public static final String FIELDS[] = { "id", "article_id", "user_id", "comment", "creation_date" };
 	public static enum FIELD_INDEX { ID, URI, CREATION_DATE };
 	
-	public Image(ResultSet _result) throws SQLException {
+	public Comments(ResultSet _result) throws SQLException {
 		this.loadFrom(_result);
 	}
 	  
@@ -57,5 +56,4 @@ public class Image implements IModel {
 	public <T> T getRelation(String _fieldName, Class<T> _class) {
 		return (T)null;
 	}
-	
 }

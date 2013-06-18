@@ -23,15 +23,12 @@
 
 <!--Datenbank auslesen und Verlinkungen setzen-->
 <%
-	
 	ArticleController ac = ArticleController.sharedInstance();
-	List<Article> articles = ac.findAll();
-	
 	int counter = 1;
 	
 	out.println("<table>");
-	for (Article article : articles) {
-		out.println("<form id=\"" + counter + "\" action=\"auction.jsp\" method=\"post\"><tr><td><a href=\"javascript: submitform(" + counter +")\">" 
+	for (Article article : ac.findAll()) {
+		out.println("<form id=\"" + counter + "\" action=\"auction.jsp\" method=\"post\"><tr><td id=\"" + (counter % 2 == 0 ? "even_td" : "odd_td" ) + "\" ><a href=\"javascript: submitform(" + counter +")\">" 
 				+ article.getValue("id") + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
 				+ article.getValue("title") + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
 				+ article.getValue("description") + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
