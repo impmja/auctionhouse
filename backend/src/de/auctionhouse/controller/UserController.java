@@ -49,9 +49,9 @@ public class UserController {
 			rs.next();
 			
 			User result = new User(rs);
-			if (result.password.equalsIgnoreCase(password)) {
+			if (result.getValueById((int) User.FIELD_INDEX.PASSWORD.ordinal()).equalsIgnoreCase(password)) {
 				HttpSession session = _request.getSession();
-				session.setAttribute("userId", result.id);
+				session.setAttribute("userId", result.getValueById((int) User.FIELD_INDEX.ID.ordinal()));
 				return result;
 			} else {
 				return null;
