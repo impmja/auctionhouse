@@ -32,12 +32,13 @@ if (articleId != null) {
 	out.println("<p>" + article.getValue("title") + "</p>");
 	out.println("<p>" + article.getValue("description") + "</p>");
 	out.println("<p>" + CurrencyHelper.toEuro(article.getValue("start_price")) + "&euro;</p>");
-	out.println("<p>" + article.getValue("is_Direct_Buy") + "</p>");
+	//out.println("<p>" + article.getValue("is_Direct_Buy") + "</p>");
 
 	User seller = article.getRelation("seller", User.class);
 	out.println("<p>" + seller.getValue("first_name") + "</p></div>");
+	
 	Image image = article.getRelation("image", Image.class);
-	out.println("<img src=\"" + image.getValue("uri") + "\"</img></div>");
+	out.println("<img src=\"img\\" + image.getValue("uri") + "\"</img></div>");
 } else {
 	out.println("<p>Ungültiger Artikel.</p></div>");
 }

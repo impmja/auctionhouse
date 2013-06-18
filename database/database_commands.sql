@@ -39,44 +39,7 @@ CREATE TABLE Users (
 GRANT ALL PRIVILEGES ON Users TO auctionhouse_root;
 
 
--- Insert Test User
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
-VALUES (DEFAULT, 'info@herwig-hensler.de', '1234', 'Herwig', 'Henseler', 'Lehms 9', '26197', 'Großenkneten', 'Niedersachsen', 'Deutschland', DEFAULT);
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
-VALUES (DEFAULT, 'impmja@gmx.de', '4321', 'Jan', 'Schulte', 'Spittaler Str. 1B', '28359', 'Bremen', 'Bremen', 'Deutschland', DEFAULT);
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
-VALUES (DEFAULT, 'm.palser@gmx.de', 'yxcv1234', 'Marvin', 'Palser', 'Thomas-Mann-Straße 5', '29614', 'Soltau', 'Niedersachsen', 'Deutschland', DEFAULT);
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
-VALUES (DEFAULT, 'admin@ebay2.de', 'yxcv', 'Admin', 'Admin', 'none', '11111', 'none', 'none', 'none', DEFAULT);
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
-VALUES (DEFAULT, 'beate@web.de', 'vcxy', 'Beate', 'Bringer', 'Freier von Stein 17', '12345', 'Oldenburg', 'Niedersachsen', 'Deutschland', DEFAULT);
-INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
-VALUES (DEFAULT, 'jens@freemail.com', 'jens', 'Jens', 'Jensen', 'Bremer Straße 50a', '54321', 'Bremerhaven', 'Niedersachsen', 'Deutschland', DEFAULT);
 
-
--- Create Image Table
-CREATE TABLE Image (
-  id SERIAL PRIMARY KEY ,
-  article_id INT REFERENCES Article(id) ON DELETE SET NULL,
-  uri VARCHAR(256) NOT NULL,
-  creation_date TIMESTAMP NULL DEFAULT current_timestamp
- );
-
-GRANT ALL PRIVILEGES ON Image TO auctionhouse_root;
-
--- Insert Test Images
-INSERT INTO Image(id, article_id, uri, creation_date)
-VALUES (DEFAULT, 1, 'skript.png', DEFAULT);
-INSERT INTO Image(id, article_id, uri, creation_date)
-VALUES (DEFAULT, 2, 'note.png', DEFAULT);
-INSERT INTO Image(id, article_id, uri, creation_date)
-VALUES (DEFAULT, 3, 'codefood.png', DEFAULT);
-INSERT INTO Image(id, article_id, uri, creation_date)
-VALUES (DEFAULT, 4, 'fishchips.png', DEFAULT);
-INSERT INTO Image(id, article_id, uri, creation_date)
-VALUES (DEFAULT, 5, 'puppies.png', DEFAULT);
-INSERT INTO Image(id, article_id, uri, creation_date)
-VALUES (DEFAULT, 6, 'kueche.png', DEFAULT);
 
 
 -- Create Article Table
@@ -94,19 +57,17 @@ CREATE TABLE Article (
 
 GRANT ALL PRIVILEGES ON Article TO auctionhouse_root;
 
--- Insert Test Article
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 1, 1, 'Vorlesungsscript', 'Datenbank und Web - Vorlesungsscript. Zustand: Gut erhalten (leichte Gebrauchsspuren)!', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 1, 2, 'Db und Web - Gute Note', 'Datenbank und Web - Verkaufe gute Noten gegen Bares!', TRUE, 10000, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 2, 3, 'Code for Food', 'Programmiere für futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 3, 4, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 5, 5, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 6, 6, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
+
+
+-- Create Image Table
+CREATE TABLE Image (
+  id SERIAL PRIMARY KEY ,
+  article_id INT REFERENCES Article(id) ON DELETE SET NULL,
+  uri VARCHAR(256) NOT NULL,
+  creation_date TIMESTAMP NULL DEFAULT current_timestamp
+ );
+
+GRANT ALL PRIVILEGES ON Image TO auctionhouse_root;
 
 
 
@@ -151,6 +112,54 @@ CREATE TABLE Comments (
 
 GRANT ALL PRIVILEGES ON Comments TO auctionhouse_root;
 
+
+-- Insert Test User
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'info@herwig-hensler.de', '1234', 'Herwig', 'Henseler', 'Lehms 9', '26197', 'Großenkneten', 'Niedersachsen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'impmja@gmx.de', '4321', 'Jan', 'Schulte', 'Spittaler Str. 1B', '28359', 'Bremen', 'Bremen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'm.palser@gmx.de', 'yxcv1234', 'Marvin', 'Palser', 'Thomas-Mann-Straße 5', '29614', 'Soltau', 'Niedersachsen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'admin@ebay2.de', 'yxcv', 'Admin', 'Admin', 'none', '11111', 'none', 'none', 'none', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'beate@web.de', 'vcxy', 'Beate', 'Bringer', 'Freier von Stein 17', '12345', 'Oldenburg', 'Niedersachsen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'jens@freemail.com', 'jens', 'Jens', 'Jensen', 'Bremer Straße 50a', '54321', 'Bremerhaven', 'Niedersachsen', 'Deutschland', DEFAULT);
+
+
+
+
+-- Insert Test Article
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 1, 1, 'Vorlesungsscript', 'Datenbank und Web - Vorlesungsscript. Zustand: Gut erhalten (leichte Gebrauchsspuren)!', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 1, 2, 'Db und Web - Gute Note', 'Datenbank und Web - Verkaufe gute Noten gegen Bares!', TRUE, 10000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 2, 3, 'Code for Food', 'Programmiere für futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 3, 4, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 5, 5, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 6, 6, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
+
+
+-- Insert Test Images
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 1, 'skript.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 2, 'note.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 3, 'codefood.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 4, 'fishchips.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 5, 'puppies.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 6, 'kueche.png', DEFAULT);
+
+
 -- Insert Test Comments
 
 INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
@@ -165,8 +174,6 @@ INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
 VALUES (DEFAULT, 2, 1, 'Ueberlegen Sie es sich gut, immerhin investieren Sie damit in Ihre Zukunft...', DEFAULT);
 INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
 VALUES (DEFAULT, 2, 6, 'Top Ebayer! Alles super schnell und Ware wie beschrieben! Danke, 5 Sternchen von mir!', DEFAULT);
-
-
 
 
 
