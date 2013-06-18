@@ -5,12 +5,14 @@
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
 <%@page import="de.auctionhouse.utils.CurrencyHelper"%>
+<%@page import="de.auctionhouse.utils.TimeHelper"%>
 <%@page import="de.auctionhouse.model.Image" %>
 <%@page import="de.auctionhouse.model.Comment" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page language="java" import="java.sql.*"%>
 <%@ page language="java" import="java.util.List"%>
+<%@ page language="java" import="java.util.Date"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -24,6 +26,7 @@
 <div id="container">
 
 <%
+
 String articleIdStr = request.getParameter("passId");
 if (articleIdStr != null) {
 	int articleId = Integer.parseInt(articleIdStr);
@@ -41,12 +44,34 @@ if (articleIdStr != null) {
 	
 	Image image = article.getRelation("image", Image.class);
 	out.println("<img src=\"img\\" + image.getValue("uri") + "\"</img></div>");
+
+	//out.println("<p>Verbleibende Zeit: " + article.getValue("end_date") + "</p></div>");
+	out.println("<p>Aktuelle Zeit: " + new Date() + "</p>");
+	out.println("<p>End Zeit: " + article.getValue("end_date") + "</p>");
+	out.println("<p>Verbleibende Zeit: " + TimeHelper.computeDifferenceFromNow(article.getValue("end_date")) + "</p></div>");
+	if (TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) {
+		out.println("<p>Zeit abgelaufen.</p>");
+	}
 	
+	// Seitenpanel nur anzeigen wenn eingeloggt
+	// TODO: Wird im Quelltext angezeigt aber ned im view??
+	UserController uc = UserController.sharedInstance();
+	User u = uc.getLoggedIn(request);
+	if (u != null) {
+		%>
+		<div id="bid_panel">
+			<form action="auction.jsp" method="post">
+				<input type="text" name="bid">
+				<input type="submit" name="buy" value="Bid">
+			</form>
+		</div>
+		<%
+	}
 	
 	// TODO: In Footer packen
 	CommentController cc = CommentController.sharedInstance();
 	out.println("<div id=\"comments_panel\">");
-	for (Comment comments : cc.findAll(articleId, 4)) {
+	for (Comment comments : cc.findAll(articleId, 10)) {
 		out.println("<div id=\"comment_entry\">");
 		User user = comments.getRelation("user", User.class);
 		out.println("<div id=\"comment_entry_user\"><p>" + user.getValue("first_name") + "&nbsp;" + user.getValue("last_name") + "</p>");
@@ -58,12 +83,6 @@ if (articleIdStr != null) {
 	out.println("<p>Ungültiger Artikel.</p></div>");
 }
 %>
-<div id="bid_panel">
-	<form action="auction.jsp" method="post">
-		<input type="text" name="bid">
-		<input type="submit" name="buy" value="Bid">
-	</form>
-</div>
 </div>
 
 </body>

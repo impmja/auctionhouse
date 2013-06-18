@@ -74,9 +74,9 @@ public class UserController {
 	
 	public User getLoggedIn(HttpServletRequest _request) throws SQLException {
 		HttpSession session = _request.getSession();
-		Integer userId = (Integer) session.getAttribute("userId");
+		String userId = (String) session.getAttribute("userId");
 		if (userId != null) {
-			return this.findById(userId);
+			return this.findById(Integer.parseInt(userId));
 		} 
 		return null;
 	}

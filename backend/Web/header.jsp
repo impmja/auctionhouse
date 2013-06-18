@@ -26,7 +26,13 @@
 			out.println("Invalid Login!");
 		}		
 	} else if (request.getParameter("is_logout") != null) {
-		
+		try {
+			if (uc.logout(request)) {
+				out.println("Logout!");
+			}
+		} catch(SQLException e) {
+			out.println("Invalid Logout!");
+		}		
 	}
 
 	// find logged in user
