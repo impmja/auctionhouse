@@ -2,10 +2,14 @@ package de.auctionhouse.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.auctionhouse.utils.DBUtils;
 
 public class Article implements IModel {
+	public Map<String, String>	fields = new HashMap<String, String>();
+	public Map<String, Object>	relations = new HashMap<String, Object>();
 	
 	public static final String RENAMED_FIELDS[] = { "article_id" };
 	public static final String FIELDS[] = { "id", "title", "description", "is_direct_buy", "start_price", "end_date", "creation_date" };

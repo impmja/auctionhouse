@@ -3,13 +3,15 @@ package de.auctionhouse.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import de.auctionhouse.utils.DBUtils;
 
 public class Image implements IModel {
 
-	public int			id;
-	public String		uri;
-	public Date			creationDate;
+	public Map<String, String>	fields = new HashMap<String, String>();
+	public Map<String, Object>	relations = new HashMap<String, Object>();
 	
 	public static final String RENAMED_FIELDS[] = { "image_id" };
 	public static final String FIELDS[] = { "id", "uri", "creation_date" };

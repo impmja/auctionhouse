@@ -41,6 +41,14 @@ td {
 	border:1px solid grey; 
 }
 
+#even_td {
+	background-color:black;
+}
+
+#odd_td {
+	background-color:red;
+}
+
 tr:hover {
 	background-color:lightblue;
 }

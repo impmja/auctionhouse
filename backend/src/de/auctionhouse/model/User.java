@@ -10,6 +10,9 @@ import de.auctionhouse.utils.DBUtils;
 
 public class User implements IModel {
 
+	public Map<String, String>	fields = new HashMap<String, String>();
+	public Map<String, Object>	relations = new HashMap<String, Object>();
+	
 	public static final String RENAMED_FIELDS[] = { "user_id" };
 	public static final String FIELDS[] = { "id", "email", "password", "first_name", "last_name", "street_name", "zip_code", "city", "state", "country", "creation_date" };
 	public static enum FIELD_INDEX { ID, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, STREET_NAME, ZIP_CODE, CITY, STATE, COUNTRY, CREATION_DATE };
