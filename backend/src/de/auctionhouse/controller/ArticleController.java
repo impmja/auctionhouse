@@ -47,7 +47,8 @@ public class ArticleController {
 											"i.id AS image_id, i.uri " +
 											"FROM Article AS a " +
 											"LEFT JOIN Users AS u ON a.seller_id = u.id " + 
-											"LEFT JOIN Image AS i ON a.image_id = i.id");
+											"LEFT JOIN Image AS i ON a.image_id = i.id " +
+											"ORDER by a.creation_date");
 		
 		//SELECT a.id, a.seller_id, a.image_id, a.title, a.description, a.is_direct_buy, a.start_price, a.end_date, a.creation_date, u.id AS user_id, u.email, u.first_name, u.last_name, i.id AS image_id, i.uri FROM Article AS a LEFT JOIN Users AS u ON a.seller_id = u.id LEFT JOIN Image AS i ON a.image_id = i.id
 		

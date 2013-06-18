@@ -54,38 +54,6 @@ INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_
 VALUES (DEFAULT, 'jens@freemail.com', 'jens', 'Jens', 'Jensen', 'Bremer Straße 50a', '54321', 'Bremerhaven', 'Niedersachsen', 'Deutschland', DEFAULT);
 
 
-
--- Create Article Table
-CREATE TABLE Article (
-  id SERIAL PRIMARY KEY ,
-  seller_id INT REFERENCES Users(id) ON DELETE SET NULL,
-  image_id INT NULL ,
-  title VARCHAR(256) NOT NULL,
-  description VARCHAR(256) NULL,
-  is_direct_buy BOOLEAN NOT NULL DEFAULT FALSE,
-  start_price INT NOT NULL DEFAULT 0,
-  end_date TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  creation_date TIMESTAMP NOT NULL DEFAULT current_timestamp
- );
-
-GRANT ALL PRIVILEGES ON Article TO auctionhouse_root;
-
--- Insert Test Article
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 1, NULL, 'Vorlesungsscript', 'Datenbank und Web - Vorlesungsscript. Zustand: Gut erhalten (leichte Gebrauchsspuren)!', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 1, NULL, 'Db und Web - Gute Note', 'Datenbank und Web - Verkaufe gute Noten gegen Bares!', TRUE, 10000, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 2, NULL, 'Code for Food', 'Programmiere für futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 3, NULL, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 5, NULL, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-25 17:00:00', DEFAULT);
-INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 6, NULL, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
-
-
-
 -- Create Image Table
 CREATE TABLE Image (
   id SERIAL PRIMARY KEY ,
@@ -109,6 +77,38 @@ INSERT INTO Image(id, article_id, uri, creation_date)
 VALUES (DEFAULT, 5, 'puppies.png', DEFAULT);
 INSERT INTO Image(id, article_id, uri, creation_date)
 VALUES (DEFAULT, 6, 'kueche.png', DEFAULT);
+
+
+-- Create Article Table
+CREATE TABLE Article (
+  id SERIAL PRIMARY KEY ,
+  seller_id INT REFERENCES Users(id) ON DELETE SET NULL,
+  image_id INT NULL ,
+  title VARCHAR(256) NOT NULL,
+  description VARCHAR(256) NULL,
+  is_direct_buy BOOLEAN NOT NULL DEFAULT FALSE,
+  start_price INT NOT NULL DEFAULT 0,
+  end_date TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  creation_date TIMESTAMP NOT NULL DEFAULT current_timestamp
+ );
+
+GRANT ALL PRIVILEGES ON Article TO auctionhouse_root;
+
+-- Insert Test Article
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 1, 1, 'Vorlesungsscript', 'Datenbank und Web - Vorlesungsscript. Zustand: Gut erhalten (leichte Gebrauchsspuren)!', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 1, 2, 'Db und Web - Gute Note', 'Datenbank und Web - Verkaufe gute Noten gegen Bares!', TRUE, 10000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 2, 3, 'Code for Food', 'Programmiere für futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 3, 4, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 5, 5, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 6, 6, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
+
+
 
 
 -- Create Bid Table
