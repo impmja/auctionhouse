@@ -33,7 +33,7 @@
 	try {
 		User user = uc.getLoggedIn(request);
 		if (user != null) {
-			out.println("<p>Sie sind angemeldet als: " + user.email + "</p>"); %>	
+			out.println("<p>Sie sind angemeldet als: " + user.getValue("email") + "</p>"); %>	
 			<div id="form">
 			<form action="index.jsp" method="post">
 				<input type="hidden" name="is_logout">
