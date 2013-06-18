@@ -9,7 +9,6 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Insert title here</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -32,8 +31,14 @@
 	try {
 		User user = uc.getLoggedIn(request);
 		if (user != null) {
-			out.println("<p>Sie sind angemeldet als: " + user.email + "</p>");	
-		} else { %>
+			out.println("<p>Sie sind angemeldet als: " + user.email + "</p>"); %>	
+			<div id="form">
+			<form action="index.jsp" method="post">
+				<input type="hidden" name="is_logout">
+				<input type="submit" name="logout" value="Logout">
+			</form>
+			</div>
+		<% } else { %>
 			<div id="form">
 				<form action="index.jsp" method="post">
 				<p><input name="email" type="text" size="20" value="E-Mail" onclick="this.value='';"
@@ -53,6 +58,13 @@
 		out.println("Fehler: Kein User");
 	}
 %>
+
+<script type="text/javascript"> 
+function logout()
+{
+  document.is_login = null;
+}
+</script>
 </div>
 </body>
 </html>
