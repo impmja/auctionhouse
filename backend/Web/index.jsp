@@ -3,6 +3,7 @@
 <%@page import="de.auctionhouse.controller.UserController"%>
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
+<%@page import="de.auctionhouse.utils.CurrencyHelper"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page language="java" import="java.sql.*"%>
@@ -31,11 +32,11 @@
 	out.println("<table>");
 	for (Article article : articles) {
 		out.println("<form id=\"" + counter + "\" action=\"auction.jsp\" method=\"post\"><tr><td><a href=\"javascript: submitform(" + counter +")\">" 
-				+ article.id + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
-				+ article.title + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
-				+ article.description + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
-				+ article.startPrice + "</a></td></tr><input type=\"hidden\" name=\"passId\" value=" 
-				+ article.id + "></form>");
+				+ article.getValue("id") + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
+				+ article.getValue("title") + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
+				+ article.getValue("description") + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
+				+ CurrencyHelper.toEuro(article.getValue("start_price")) + "&euro;</a></td></tr><input type=\"hidden\" name=\"passId\" value=" 
+				+ article.getValue("id") + "></form>");
 		counter++;
 	}
 	out.println("</table>");

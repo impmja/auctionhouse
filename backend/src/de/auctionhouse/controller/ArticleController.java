@@ -27,22 +27,29 @@ public class ArticleController {
 		
 		Statement stmt = ConnectionController.sharedInstance().newStatement();
 		
-		ResultSet rs = stmt.executeQuery("SELECT * FROM Article LEFT JOIN Users ON Article.seller_id = Users.id WHERE Article.id = " + _id);
+		//ResultSet rs = stmt.executeQuery("SELECT * FROM Article AS a LEFT JOIN Users AS u ON a.seller_id = u.id WHERE a.id = " + _id);
+		ResultSet rs = stmt.executeQuery("SELECT * FROM Article AS a " +
+											"LEFT JOIN Users AS u ON a.seller_id = u.id " +
+											"LEFT JOIN Image AS i ON a.image_id = i.id " +
+											"WHERE a.id = " + _id);
+		
 		rs.next();
-		
-		
-		/* ORGINAL
-		ResultSet rs = stmt.executeQuery("SELECT * FROM article where id =" + _id);
-		rs.next();
-		*/
-		
+	
 		return new Article(rs);	
 	}
 	
 	public List<Article> findAll() throws SQLException {
 		
 		Statement stmt = ConnectionController.sharedInstance().newStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM article");
+		
+		ResultSet rs = stmt.executeQuery("SELECT a.id, a.seller_id, a.image_id, a.title, a.description, a.is_direct_buy, a.start_price, a.end_date, a.creation_date, " +
+											"u.id AS user_id, u.email, u.first_name, u.last_name, " +
+											"i.id AS image_id, i.uri " +
+											"FROM Article AS a " +
+											"LEFT JOIN Users AS u ON a.seller_id = u.id " + 
+											"LEFT JOIN Image AS i ON a.image_id = i.id");
+		
+		//ResultSet rs = stmt.executeQuery("SELECT * FROM article");
 		
 		List<Article> result =  new ArrayList<Article>();
 		while(rs.next()) {

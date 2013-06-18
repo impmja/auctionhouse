@@ -3,6 +3,7 @@
 <%@page import="de.auctionhouse.controller.UserController"%>
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
+<%@page import="de.auctionhouse.utils.CurrencyHelper"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page language="java" import="java.sql.*"%>
@@ -20,19 +21,23 @@
 	<jsp:include page="header.jsp" />
 
 <%
-String test = request.getParameter("passId");
-int id = Integer.parseInt(test);
-%>
+String articleId = request.getParameter("passId");
+if (articleId != null) {
+	int id = Integer.parseInt(articleId);
+	
+	ArticleController ac = ArticleController.sharedInstance();
+	Article article = ac.findById(id);
+	out.println("<p>" + article.getValue("id") + "</p>");
+	out.println("<p>" + article.getValue("title") + "</p>");
+	out.println("<p>" + article.getValue("description") + "</p>");
+	out.println("<p>" + CurrencyHelper.toEuro(article.getValue("start_price")) + "&euro;</p>");
+	out.println("<p>" + article.getValue("is_Direct_Buy") + "</p>");
 
-<%
-ArticleController ac = ArticleController.sharedInstance();
-Article article = ac.findById(id);
-out.println("<p>" + article.id + "</p>");
-out.println("<p>" + article.title + "</p>");
-out.println("<p>" + article.description + "</p>");
-out.println("<p>" + article.startPrice + "</p>");
-out.println("<p>" + article.isDirectBuy + "</p>");
-out.println("<p>" + article.seller + "</p>");
+	User seller = article.getRelation("seller", User.class);
+	out.println("<p>" + seller.getValue("first_name") + "</p>");
+} else {
+	out.println("<p>Ungültiger Artikel.</p>");
+}
 %>
 
 <div id="bid_panel">
