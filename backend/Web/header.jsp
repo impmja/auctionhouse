@@ -25,6 +25,8 @@
 		} catch(SQLException e) {
 			out.println("Invalid Login!");
 		}		
+	} else if (request.getParameter("is_logout") != null) {
+		
 	}
 
 	// find logged in user
@@ -42,14 +44,13 @@
 			<div id="form">
 				<form action="index.jsp" method="post">
 				<p><input name="email" type="text" size="20" value="E-Mail" onclick="this.value='';"
-				onblur="this.value=!this.value?'E-Mail':this.value;"></p>
-				<p><input name="password" type="password" size="20" value="******" onclick="this.value='';"
-				onblur="this.value=!this.value?'******':this.value;"></p>
-				<input type="submit" name="login" value="Login">
+				onblur="this.value=!this.value?'E-Mail':this.value;">
+				<input name="password" type="password" size="20" value="******" onclick="this.value='';"
+				onblur="this.value=!this.value?'******':this.value;">
+				<input type="submit" name="login" value="Login"></p>
 				<input type="hidden" name="is_login">
 				</form>
-		
-				<form action="form.jsp" method="post">
+				<form action="form.jsp" method="post" style="position:relative; left:284px">
 					<input type="submit" name="register" value="Register">
 				</form>
 			</div>

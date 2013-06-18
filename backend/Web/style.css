@@ -7,17 +7,26 @@ body {
 #header {
 	width:800px;
 	height:100px;
-	background-color:lightgrey;
-	border: 3px ridge lightgrey;
+	background-color:#ffdd41;
 	border-bottom:none;
 	padding:20px;
 	font-size:25pt;
+	color:red;
 }
 
 #content {
 	width:808px;
 	background-color:lightgrey;
 	border: 1px solid black;
+	padding:20px;
+}
+
+#bid_panel {
+	display:block;
+	width:806px;
+	position:fixed;
+	bottom:0px;
+	background:lightgrey;
 	padding:20px;
 }
 
@@ -38,6 +47,6 @@ tr:hover {
 
 #form {
 	position:relative;
-	left:650px;
-	margin-top:-60px;
+	left:450px;
+	margin-top:-90px;
 }

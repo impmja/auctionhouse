@@ -35,6 +35,12 @@ out.println("<p>" + article.isDirectBuy + "</p>");
 out.println("<p>" + article.seller + "</p>");
 %>
 
+<div id="bid_panel">
+	<form action="auction.jsp" method="post">
+		<input type="text" name="bid">
+		<input type="submit" name="buy" value="Bid">
+	</form>
+</div>
 
 
 </body>
