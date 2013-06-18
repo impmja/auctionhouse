@@ -9,7 +9,7 @@ body {
 	height:100px;
 	background-color:#ffdd41;
 	border-bottom:none;
-	padding:20px;
+	padding:40px;
 	font-size:25pt;
 	color:red;
 }
@@ -21,24 +21,38 @@ body {
 	padding:20px;
 }
 
+#container {
+	width:100%;
+}
+
+#detail_panel {
+	background:lightblue;
+	width:670px;
+	height:500px;
+	float:left;
+	margin-right:5px;
+	padding:20px;
+}
+
 #bid_panel {
-	display:block;
-	width:806px;
-	position:fixed;
-	bottom:0px;
 	background:#91e559;
+	width:125px;
+	height:500px;
+	float:left;
 	padding:20px;
 }
 
 table {
 	width:846px;
 	vertical-align:bottom;
-	border:2px solid grey;
 }
 
 td { 
 	padding: 20px;	
-	border:1px solid grey; 
+}
+
+tr {
+	background-color:#91e559; 
 }
 
 #even_td {
@@ -58,3 +72,9 @@ tr:hover {
 	left:450px;
 	margin-top:-90px;
 }
+
+a {text-decoration:none;}
+a:link {color:#000;}
+a:visited {color:#000;}
+a:hover {color:#000;}
+a:active {color:#000;}
