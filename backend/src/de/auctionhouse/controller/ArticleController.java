@@ -26,8 +26,15 @@ public class ArticleController {
 	public Article findById(int _id) throws SQLException {
 		
 		Statement stmt = ConnectionController.sharedInstance().newStatement();
+		
+		ResultSet rs = stmt.executeQuery("SELECT * FROM Article LEFT JOIN Users ON Article.seller_id = Users.id WHERE Article.id = " + _id);
+		rs.next();
+		
+		
+		/* ORGINAL
 		ResultSet rs = stmt.executeQuery("SELECT * FROM article where id =" + _id);
 		rs.next();
+		*/
 		
 		return new Article(rs);	
 	}

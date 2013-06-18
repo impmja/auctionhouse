@@ -62,6 +62,16 @@ public class UserController {
 		}
 	}
 	
+	public boolean logout(HttpServletRequest _request) throws SQLException {
+		User loggedIn = getLoggedIn(_request);
+		if (loggedIn != null) {
+			HttpSession session = _request.getSession();
+			session.setAttribute("userId", null);
+			return true;
+		}
+		return false;
+	}
+	
 	public User getLoggedIn(HttpServletRequest _request) throws SQLException {
 		HttpSession session = _request.getSession();
 		Integer userId = (Integer) session.getAttribute("userId");
