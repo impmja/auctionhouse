@@ -1,10 +1,12 @@
 <%@page import="de.auctionhouse.controller.ArticleController"%>
 <%@page import="de.auctionhouse.controller.ConnectionController"%>
 <%@page import="de.auctionhouse.controller.UserController"%>
+<%@page import="de.auctionhouse.controller.CommentController"%>
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
 <%@page import="de.auctionhouse.utils.CurrencyHelper"%>
 <%@page import="de.auctionhouse.model.Image" %>
+<%@page import="de.auctionhouse.model.Comment" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page language="java" import="java.sql.*"%>
@@ -22,12 +24,12 @@
 <div id="container">
 
 <%
-String articleId = request.getParameter("passId");
-if (articleId != null) {
-	int id = Integer.parseInt(articleId);
+String articleIdStr = request.getParameter("passId");
+if (articleIdStr != null) {
+	int articleId = Integer.parseInt(articleIdStr);
 	
 	ArticleController ac = ArticleController.sharedInstance();
-	Article article = ac.findById(id);
+	Article article = ac.findById(articleId);
 	out.println("<div id=\"detail_panel\"><p>" + article.getValue("id") + "</p>");
 	out.println("<p>" + article.getValue("title") + "</p>");
 	out.println("<p>" + article.getValue("description") + "</p>");
@@ -39,6 +41,19 @@ if (articleId != null) {
 	
 	Image image = article.getRelation("image", Image.class);
 	out.println("<img src=\"img\\" + image.getValue("uri") + "\"</img></div>");
+	
+	
+	// TODO: In Footer packen
+	CommentController cc = CommentController.sharedInstance();
+	out.println("<div id=\"comments_panel\">");
+	for (Comment comments : cc.findAll(articleId, 4)) {
+		out.println("<div id=\"comment_entry\">");
+		User user = comments.getRelation("user", User.class);
+		out.println("<div id=\"comment_entry_user\"><p>" + user.getValue("first_name") + "&nbsp;" + user.getValue("last_name") + "</p>");
+		out.println("<p>" + comments.getValue("comment") + "</p></div>");
+	}
+	out.println("<div\">");
+	
 } else {
 	out.println("<p>Ungültiger Artikel.</p></div>");
 }

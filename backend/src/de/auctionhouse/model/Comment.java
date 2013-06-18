@@ -7,7 +7,7 @@ import java.util.Map;
 import de.auctionhouse.utils.DBUtils;
 
 
-public class Comments implements IModel {
+public class Comment implements IModel {
 	
 	public Map<String, String>	fields = new HashMap<String, String>();
 	public Map<String, Object>	relations = new HashMap<String, Object>();
@@ -15,8 +15,9 @@ public class Comments implements IModel {
 	public static final String RENAMED_FIELDS[] = { "image_id" };
 	public static final String FIELDS[] = { "id", "article_id", "user_id", "comment", "creation_date" };
 	public static enum FIELD_INDEX { ID, URI, CREATION_DATE };
+	public static final String RELATIONS[] = { "user" }; 
 	
-	public Comments(ResultSet _result) throws SQLException {
+	public Comment(ResultSet _result) throws SQLException {
 		this.loadFrom(_result);
 	}
 	  
@@ -34,6 +35,9 @@ public class Comments implements IModel {
 				fields.put(FIELDS[i], _result.getString(FIELDS[i]));
 			}
 		}
+		
+		// resolve relations
+		relations.put(RELATIONS[0], new User(_result));
 	}
 	
 	@Override
@@ -53,7 +57,13 @@ public class Comments implements IModel {
 	}
 
 	@Override
-	public <T> T getRelation(String _fieldName, Class<T> _class) {
+	public <T> T getRelation(String _relationName, Class<T> _class) {
+		if (relations.containsKey(_relationName)) {
+			Object result = relations.get(_relationName);
+			if (_class.isInstance(result)) {
+				return _class.cast(relations.get(_relationName));
+			}
+		}
 		return (T)null;
 	}
 }
