@@ -1,4 +1,4 @@
--- Create Database & User
+﻿-- Create Database & User
 --DROP USER auctionhouse_root;
 CREATE USER auctionhouse_root WITH PASSWORD '1234';
 
@@ -39,13 +39,19 @@ CREATE TABLE Users (
 GRANT ALL PRIVILEGES ON Users TO auctionhouse_root;
 
 
--- Inser Test User
+-- Insert Test User
 INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
 VALUES (DEFAULT, 'info@herwig-hensler.de', '1234', 'Herwig', 'Henseler', 'Lehms 9', '26197', 'Großenkneten', 'Niedersachsen', 'Deutschland', DEFAULT);
 INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
 VALUES (DEFAULT, 'impmja@gmx.de', '4321', 'Jan', 'Schulte', 'Spittaler Str. 1B', '28359', 'Bremen', 'Bremen', 'Deutschland', DEFAULT);
 INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
 VALUES (DEFAULT, 'm.palser@gmx.de', 'yxcv1234', 'Marvin', 'Palser', 'Thomas-Mann-Straße 5', '29614', 'Soltau', 'Niedersachsen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'admin@ebay2.de', 'yxcv', 'Admin', 'Admin', 'none', '11111', 'none', 'none', 'none', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'beate@web.de', 'vcxy', 'Beate', 'Bringer', 'Freier von Stein 17', '12345', 'Oldenburg', 'Niedersachsen', 'Deutschland', DEFAULT);
+INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_code, city, state, country, creation_date) 
+VALUES (DEFAULT, 'jens@freemail.com', 'jens', 'Jens', 'Jensen', 'Bremer Straße 50a', '54321', 'Bremerhaven', 'Niedersachsen', 'Deutschland', DEFAULT);
 
 
 
@@ -71,6 +77,12 @@ INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, 
 VALUES (DEFAULT, 1, NULL, 'Db und Web - Gute Note', 'Datenbank und Web - Verkaufe gute Noten gegen Bares!', TRUE, 10000, '2013-06-25 17:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 2, NULL, 'Code for Food', 'Programmiere für futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 3, NULL, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 5, NULL, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-25 17:00:00', DEFAULT);
+INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
+VALUES (DEFAULT, 6, NULL, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
 
 
 
@@ -84,6 +96,20 @@ CREATE TABLE Image (
 
 GRANT ALL PRIVILEGES ON Image TO auctionhouse_root;
 
+-- Insert Test Images
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 1, 'skript.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 2, 'note.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 3, 'codefood.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 4, 'fishchips.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 5, 'puppies.png', DEFAULT);
+INSERT INTO Image(id, article_id, uri, creation_date)
+VALUES (DEFAULT, 6, 'kueche.png', DEFAULT);
+
 
 -- Create Bid Table
 CREATE TABLE Bid (
@@ -96,6 +122,7 @@ CREATE TABLE Bid (
 
 GRANT ALL PRIVILEGES ON Bid TO auctionhouse_root;
 
+-- No Test Data, will be created in use
 
 
 -- Create Purchases Table
@@ -109,6 +136,8 @@ CREATE TABLE Purchases (
 
 GRANT ALL PRIVILEGES ON Purchases TO auctionhouse_root;
 
+-- No Test Data, will be created in use
+
 
 
 -- Create Comments Table
@@ -121,6 +150,21 @@ CREATE TABLE Comments (
  );
 
 GRANT ALL PRIVILEGES ON Comments TO auctionhouse_root;
+
+-- Insert Test Comments
+
+INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
+VALUES (DEFAULT, 2, 2, 'Geht nicht guenstiger? :D', DEFAULT);
+INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
+VALUES (DEFAULT, 2, 1, 'Nope', DEFAULT);
+INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
+VALUES (DEFAULT, 2, 3, 'Fuer nen 5er bin ich dabei ;)', DEFAULT);
+INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
+VALUES (DEFAULT, 2, 1, '100 - nicht mehr, nicht weniger!', DEFAULT);
+INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
+VALUES (DEFAULT, 2, 1, 'Ueberlegen Sie es sich gut, immerhin investieren Sie damit in Ihre Zukunft...', DEFAULT);
+INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
+VALUES (DEFAULT, 2, 6, 'Top Ebayer! Alles super schnell und Ware wie beschrieben! Danke, 5 Sternchen von mir!', DEFAULT);
 
 
 
