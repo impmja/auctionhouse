@@ -1,80 +1,105 @@
 @CHARSET "ISO-8859-1";
 
 body {
+	
+}
 
+h2 {
+	color: red;
+	font-size: 34pt;
+	margin: 0;
+}
+
+h4 {
+	margin: 0;
 }
 
 #header {
-	width:800px;
-	height:100px;
-	background-color:#ffdd41;
-	border-bottom:none;
-	padding:40px;
-	font-size:25pt;
-	color:red;
+	width: 800px;
+	height: 100px;
+	background-color: #ffdd41;
+	padding: 40px;
 }
 
 #content {
-	width:808px;
-	background-color:lightgrey;
-	border: 1px solid black;
-	padding:20px;
+	width: 840px;
+	padding: 20px;
+	background: lightblue;
 }
 
 #container {
-	width:100%;
+	width: 100%;
+	margin-top: 2px;
 }
 
 #detail_panel {
-	background:lightblue;
-	width:670px;
-	height:500px;
-	float:left;
-	margin-right:5px;
-	padding:20px;
+	background: lightblue;
+	width: 670px;
+	height: 500px;
+	float: left;
+	margin-right: 2px;
+	padding: 20px;
 }
 
 #bid_panel {
-	background:#91e559;
-	width:125px;
-	height:500px;
-	float:left;
-	padding:20px;
+	background: #91e559;
+	width: 128px;
+	height: 500px;
+	float: left;
+	padding: 20px;
+}
+
+#comments_panel {
+	background-color: #ffdd41;
+	width: 860px;
+	padding: 10px;
+	float: left;
+	margin-top: 2px;
+}
+
+#comment_entry {
+	background-color: white;
 }
 
 table {
-	width:846px;
-	vertical-align:bottom;
+	width: 884px;
+	margin-left: -2px;
 }
 
-td { 
-	padding: 20px;	
+td {
+	padding: 20px;
 }
 
-tr {
-	background-color:#91e559; 
+#even_tr {
+	background-color: #91e559;
 }
 
-#even_td {
-	background-color:black;
-}
-
-#odd_td {
-	background-color:red;
-}
-
-tr:hover {
-	background-color:lightblue;
+#odd_tr {
+	background-color: lightblue;
 }
 
 #form {
-	position:relative;
-	left:450px;
-	margin-top:-90px;
+	position: relative;
+	left: 450px;
+	margin-top: -90px;
 }
 
-a {text-decoration:none;}
-a:link {color:#000;}
-a:visited {color:#000;}
-a:hover {color:#000;}
-a:active {color:#000;}
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: #000;
+}
+
+a:visited {
+	color: #000;
+}
+
+a:hover {
+	color: #000;
+}
+
+a:active {
+	color: #000;
+}

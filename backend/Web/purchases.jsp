@@ -9,16 +9,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>eBay 2.0</title>
+<title>My Purchases</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-
 <jsp:include page="header.jsp" />
 
 
 <!--Datenbank auslesen und Verlinkungen setzen-->
 <%
+	//TODO: Richtige Tabelle ausspucken (Einkäufe des angemeldeten Users)
 	ArticleController ac = ArticleController.sharedInstance();
 	int counter = 1;
 
@@ -57,5 +57,6 @@ function submitform(_id)
   document.getElementById(_id).submit();
 }
 </script>
+
 </body>
 </html>

@@ -136,7 +136,7 @@ VALUES (DEFAULT, 1, 1, 'Vorlesungsscript', 'Datenbank und Web - Vorlesungsscript
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 1, 2, 'Db und Web - Gute Note', 'Datenbank und Web - Verkaufe gute Noten gegen Bares!', TRUE, 10000, '2013-06-25 17:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 2, 3, 'Code for Food', 'Programmiere für futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
+VALUES (DEFAULT, 2, 3, 'Code for Food', 'Programmiere fuer futerale Gegenleistungen!', TRUE, 1000, '2013-06-25 17:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 3, 4, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 17:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)

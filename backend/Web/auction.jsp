@@ -1,89 +1,96 @@
 <%@page import="de.auctionhouse.controller.ArticleController"%>
-<%@page import="de.auctionhouse.controller.ConnectionController"%>
 <%@page import="de.auctionhouse.controller.UserController"%>
 <%@page import="de.auctionhouse.controller.CommentController"%>
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
 <%@page import="de.auctionhouse.utils.CurrencyHelper"%>
 <%@page import="de.auctionhouse.utils.TimeHelper"%>
-<%@page import="de.auctionhouse.model.Image" %>
-<%@page import="de.auctionhouse.model.Comment" %>
+<%@page import="de.auctionhouse.model.Image"%>
+<%@page import="de.auctionhouse.model.Comment"%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page language="java" import="java.sql.*"%>
-<%@ page language="java" import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+
 <%@ page language="java" import="java.util.Date"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>eBay 2.0 - <%= request.getParameter("passId") %></title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>eBay 2.0 - <%=request.getParameter("passId")%></title>
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <jsp:include page="header.jsp" />
 <div id="container">
-
 <%
+	String articleIdStr = request.getParameter("passId");
+	if (articleIdStr != null) {
+		int articleId = Integer.parseInt(articleIdStr);
 
-String articleIdStr = request.getParameter("passId");
-if (articleIdStr != null) {
-	int articleId = Integer.parseInt(articleIdStr);
-	
-	ArticleController ac = ArticleController.sharedInstance();
-	Article article = ac.findById(articleId);
-	out.println("<div id=\"detail_panel\"><p>" + article.getValue("id") + "</p>");
-	out.println("<p>" + article.getValue("title") + "</p>");
-	out.println("<p>" + article.getValue("description") + "</p>");
-	out.println("<p>" + CurrencyHelper.toEuro(article.getValue("start_price")) + "&euro;</p>");
-	//out.println("<p>" + article.getValue("is_Direct_Buy") + "</p>");
+		ArticleController ac = ArticleController.sharedInstance();
+		Article article = ac.findById(articleId);
+		out.println("<div id=\"detail_panel\"><p>"
+				+ article.getValue("id"));
+		out.println("   " + article.getValue("title") + "</p>");
+		out.println("<p>" + article.getValue("description")
+				+ "</p><br>");
+		out.println("<p><h3>Aktueller Preis: "
+				+ CurrencyHelper
+						.toEuro(article.getValue("start_price"))
+				+ "&euro;</h3></p><br>");
+		//out.println("<p>" + article.getValue("is_Direct_Buy") + "</p>");
 
-	User seller = article.getRelation("seller", User.class);
-	out.println("<p>" + seller.getValue("first_name") + "</p></div>");
-	
-	Image image = article.getRelation("image", Image.class);
-	out.println("<img src=\"img\\" + image.getValue("uri") + "\"</img></div>");
+		Image image = article.getRelation("image", Image.class);
+		out.println("<img src=\"img/" + image.getValue("uri")
+				+ "\" width=\"250\" height=\"250\">");
 
-	//out.println("<p>Verbleibende Zeit: " + article.getValue("end_date") + "</p></div>");
-	out.println("<p>Aktuelle Zeit: " + new Date() + "</p>");
-	out.println("<p>End Zeit: " + article.getValue("end_date") + "</p>");
-	out.println("<p>Verbleibende Zeit: " + TimeHelper.computeDifferenceFromNow(article.getValue("end_date")) + "</p></div>");
-	if (TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) {
-		out.println("<p>Zeit abgelaufen.</p>");
-	}
-	
-	// Seitenpanel nur anzeigen wenn eingeloggt
-	// TODO: Wird im Quelltext angezeigt aber ned im view??
-	UserController uc = UserController.sharedInstance();
-	User u = uc.getLoggedIn(request);
-	if (u != null) {
-		%>
-		<div id="bid_panel">
-			<form action="auction.jsp" method="post">
-				<input type="text" name="bid">
-				<input type="submit" name="buy" value="Bid">
-			</form>
-		</div>
-		<%
-	}
-	
-	// TODO: In Footer packen
-	CommentController cc = CommentController.sharedInstance();
-	out.println("<div id=\"comments_panel\">");
-	for (Comment comments : cc.findAll(articleId, 10)) {
-		out.println("<div id=\"comment_entry\">");
-		User user = comments.getRelation("user", User.class);
-		out.println("<div id=\"comment_entry_user\"><p>" + user.getValue("first_name") + "&nbsp;" + user.getValue("last_name") + "</p>");
-		out.println("<p>" + comments.getValue("comment") + "</p></div>");
-	}
-	out.println("<div\">");
-	
-} else {
-	out.println("<p>Ungültiger Artikel.</p></div>");
-}
+		User seller = article.getRelation("seller", User.class);
+		out.println("<p><br>Seller: " + seller.getValue("first_name")
+				+ "</p></div>");
+
+		out.println("<div id=\"bid_panel\">");
+		//out.println("<p>Verbleibende Zeit: " + article.getValue("end_date") + "</p></div>");
+		out.println("<p>Aktuelle Zeit: " + new Date() + "</p>");
+		out.println("<p>End Zeit: " + article.getValue("end_date")
+				+ "</p>");
+		out.println("<p>Verbleibende Zeit: "
+				+ TimeHelper.computeDifferenceFromNow(article
+						.getValue("end_date")) + "</p>");
+		if (TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) {
+			out.println("<p>Zeit abgelaufen.</p>");
+		}
+
+		// Seitenpanel nur anzeigen wenn eingeloggt
+		UserController uc = UserController.sharedInstance();
+		User u = uc.getLoggedIn(request);
+		if (u != null) {
 %>
+<form action="auction.jsp" method="post"><input type="text"
+	name="bid"> <input type="submit" name="buy" value="Bid">
+</form>
 </div>
+<%
+	} else {
+			out.println("<p>Zum Bieten bitte einloggen!</p></div>");
+		}
+
+		CommentController cc = CommentController.sharedInstance();
+		out.println("<div id=\"comments_panel\"><h3>Kommentare</h3>");
+		for (Comment comments : cc.findAll(articleId, 10)) {
+			out.println("<div id=\"comment_entry\">");
+			User user = comments.getRelation("user", User.class);
+			out.println("<div id=\"comment_entry_user\"><p><h4>"
+					+ user.getValue("first_name") + "&nbsp;"
+					+ user.getValue("last_name") + "</h4>");
+			out.println(comments.getValue("comment") + "</p></div>");
+		}
+		out.println("<div\">");
+
+	} else {
+		out.println("<p>Ungültiger Artikel.</p></div>");
+	}
+%>
 
 </body>
 </html>
