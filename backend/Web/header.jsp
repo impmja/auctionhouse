@@ -12,24 +12,27 @@
 	</head>
 	<body>
 		<div id="header">
-		<h2><a href="index.jsp">eBay 2.0</a></h2>
+			<div id="header_title"><h2><a href="index.jsp">eBay 2.0</a></h2></div>
+			
 		<%
+			boolean invalidLogin = false;
+		
 		 	// Does the User wants to login?
 		 	UserController uc = UserController.sharedInstance();
 		 	if (request.getParameter("is_login") != null) {
 		 		try {
 		 			User user = uc.login(request);
 		 			if (user == null) {
-		 				out.println("Fehler: Ungueltige Anmeldung.");
+		 				invalidLogin = true;
 		 			}
 		 		} catch (SQLException e) {
-		 			out.println("Fehler: Ungueltige Anmeldung.");
+		 			invalidLogin = true;
 		 		}
 		 	} else if (request.getParameter("is_logout") != null) {
 		 		try {
 		 			uc.logout(request);
 		 		} catch (SQLException e) {
-		 			out.println("Fehler: Abmeldung fehlgeschlagen.");
+		 			out.println("<div id=\"header_loggedin_bar\">Fehler: Abmeldung fehlgeschlagen.</div>");
 		 		}
 		 	}
 		
@@ -37,40 +40,60 @@
 		 	try {
 		 		User user = uc.getLoggedIn(request);
 		 		if (user != null) {
-		 			out.println("<p>Angemeldet als: "
-		 					+ user.getValue("first_name") + "&nbsp;" + user.getValue("last_name") + "</p>");
+		 			out.println("<div id=\"header_loggedin_bar\">Angemeldet als: "
+		 					+ user.getValue("first_name") + "&nbsp;" + user.getValue("last_name") + "</div>");
 				%>
-					<div id="form">
-						<p><a href="purchases.jsp">
-						<input type="submit" name="purchases" value="Purchases" style="position: relative; left: 284px"></a></p>
+					<div id="header_tool_bar">
 						<form action="index.jsp" method="post">
-						<input type="hidden" name="is_logout">
-						<p><input type="submit" name="logout" value="Logout" style="position: relative; left: 284px"></p>
-					</form>
+							<input id="header_tool_bar_article_button" type="submit" value="Artikel">
+						</form>
+						
+						<form action="purchases.jsp" method="post">
+							<input id="header_tool_bar_article_button" type="submit" value="Eink&auml;ufe">
+						</form>
+						
+						<form action="index.jsp" method="post">
+							<input type="hidden" name="is_logout">
+							<input id="header_tool_bar_article_button" type="submit" value="Abmelden">
+						</form>
 					</div>
+					
 				<%
 				} else {
 				%>
-					<div id="form">
-					<form action="index.jsp" method="post">
-					<p>
-					<input name="email" type="text" size="20" value="E-Mail"
-						onclick="this.value='';"
-						onblur="this.value=!this.value?'E-Mail':this.value;">
-					<input
-						name="password" type="password" size="20" value="******"
-						onclick="this.value='';"
-						onblur="this.value=!this.value?'******':this.value;"> <input
-						type="submit" name="login" value="Login"></p>
-					<input type="hidden" name="is_login"></form>
-					<form action="form.jsp" method="post"
-						style="position: relative; left: 284px"><input type="submit"
-						name="register" value="Register"></form>
+					<div id="header_login_bar">
+						<form action="index.jsp" method="post">
+							<input type="hidden" name="is_login">	
+							<input id="header_login_bar_edit" name="email" type="text" size="20" value="E-Mail"
+								onclick="this.value='';"
+								onblur="this.value=!this.value?'E-Mail':this.value;">
+							<input id="header_login_bar_edit"
+								name="password" type="password" size="20" value="******"
+								onclick="this.value='';"
+								onblur="this.value=!this.value?'******':this.value;">
+							<input id="header_tool_bar_article_button" type="submit" value="Anmelden">
+						</form>
+					</div>
+				<%
+					if (invalidLogin) {
+					%>
+						<div id="header_loggedin_bar">Fehler: Ung&uuml;tige Anmeldung.</div>
+					<%	
+					} else {
+					%>
+						<div id="header_loggedin_bar">&nbsp;</div>
+					<%
+					}
+				%>
+					<div id="header_tool_bar">
+						<form action="index.jsp" method="post">
+							<input id="header_tool_bar_article_button" type="submit" value="Artikel">
+						</form>
 					</div>
 				<%
 				}
 		 	} catch (SQLException e) {
-				out.println("Fehler: Unbekannter Benutzer.");
+				//out.println("Fehler: Unbekannter Benutzer.");
 			}
 		%> 
 		<script type="text/javascript"> 

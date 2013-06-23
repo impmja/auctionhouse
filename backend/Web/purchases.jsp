@@ -49,8 +49,7 @@
 									+ "</a></td><td><a href=\"javascript: submitform("
 									+ counter
 									+ ")\">"
-									+ CurrencyHelper.toEuro(purchase
-											.getValue("price"))
+									+ CurrencyHelper.toEuro(purchase.getValue("price"))
 									+ "&euro;</a></td></tr><input type=\"hidden\" name=\"articleId\" value="
 									+ article.getValue("article_id") + "></form>");
 					counter++;

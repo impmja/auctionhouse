@@ -21,6 +21,61 @@ h4 {
 	padding: 40px;
 }
 
+#header_title {
+	width: 600px;
+	heigth: 80px;
+	float: left;
+}
+
+#header_tool_bar {
+	margin-top: 0px;
+	width: 600px;
+	heigth: 40px;
+	float: left;
+}
+
+#header_tool_bar_article_button {
+	background: lightblue;
+	width: 120px;
+	height: 40px;
+	text-align: center;
+	border-style: none;
+	font-size: 14pt;
+	float: left;
+	margin-right: 20px;
+}
+
+#header_tool_bar_article_button:hover
+{ 
+	background-color: #91e559;
+}
+
+#header_login_bar {
+	margin-top: 28px;
+	margin-right: 0px;
+	
+	width: 120px;
+	heigth: 120px;
+	float: right;
+}
+
+#header_login_bar_edit {
+	width: 115px;
+	margin-bottom: 10px;
+}
+
+
+#header_loggedin_bar {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+	width: 600px;
+	heigth: 40px;
+	float: left;
+}
+
+
+
 #content {
 	width: 840px;
 	padding: 20px;
@@ -86,8 +141,18 @@ td {
 	background-color: #91e559;
 }
 
+#even_tr:hover
+{ 
+	background-color: #ffdd41;
+}
+
 #odd_tr {
 	background-color: lightblue;
+}
+
+#odd_tr:hover
+{ 
+	background-color: #ffdd41;
 }
 
 #form {
@@ -104,11 +169,18 @@ td {
 
 #bid_submit { 
 	width: 132px;
-	heigth: 50px;
+	heigth: 60px;
     margin-top:6px;	
     background: #ffdd41;
-    font-size: 12pt;
+    border-style: none;
+	font-size: 14pt;
 }
+
+#bid_submit:hover
+{ 
+	background-color: lightblue;
+}
+
 
 a {
 	text-decoration: none;

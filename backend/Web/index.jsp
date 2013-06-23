@@ -62,7 +62,7 @@
 									+ "</td></tr><input type=\"hidden\" name=\"articleId\" value="
 									+ article.getValue("id") + "></form>");
 					
-					
+				
 					counter++;
 				}
 			} catch (SQLException e) {
