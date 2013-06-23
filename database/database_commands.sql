@@ -82,6 +82,7 @@ CREATE TABLE Bid (
  );
 
 GRANT ALL PRIVILEGES ON Bid TO auctionhouse_root;
+GRANT ALL PRIVILEGES ON SEQUENCE bid_id_seq TO auctionhouse_root;
 
 -- No Test Data, will be created in use
 
@@ -96,6 +97,7 @@ CREATE TABLE Purchases (
  );
 
 GRANT ALL PRIVILEGES ON Purchases TO auctionhouse_root;
+GRANT ALL PRIVILEGES ON SEQUENCE purchases_id_seq TO auctionhouse_root;
 
 -- No Test Data, will be created in use
 
@@ -111,6 +113,7 @@ CREATE TABLE Comments (
  );
 
 GRANT ALL PRIVILEGES ON Comments TO auctionhouse_root;
+GRANT ALL PRIVILEGES ON SEQUENCE comments_id_seq TO auctionhouse_root;
 
 
 -- Insert Test User
@@ -128,8 +131,6 @@ INSERT INTO Users (id, email, password, first_name, last_name, street_name, zip_
 VALUES (DEFAULT, 'jens@freemail.com', 'jens', 'Jens', 'Jensen', 'Bremer Straße 50a', '54321', 'Bremerhaven', 'Niedersachsen', 'Deutschland', DEFAULT);
 
 
-
-
 -- Insert Test Article
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 1, 1, 'Vorlesungsscript', 'Datenbank und Web - Vorlesungsscript. Zustand: Gut erhalten (leichte Gebrauchsspuren)!', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
@@ -140,9 +141,27 @@ VALUES (DEFAULT, 2, 3, 'Code for Food', 'Programmiere fuer futerale Gegenleistun
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 3, 4, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 17:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 5, 5, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-25 17:00:00', DEFAULT);
+VALUES (DEFAULT, 5, 5, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-24 12:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 6, 6, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-25 17:00:00', DEFAULT);
+VALUES (DEFAULT, 6, 6, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-23 20:30:00', DEFAULT);
+
+
+-- Insert Test Bids
+INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date)
+VALUES (DEFAULT, 2, 1, 101, '2013-06-23 17:00:00');
+INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date)
+VALUES (DEFAULT, 3, 1, 110, '2013-06-23 17:10:00');
+INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date)
+VALUES (DEFAULT, 2, 1, 120, '2013-06-23 17:30:00');
+
+INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date)
+VALUES (DEFAULT, 2, 2, 10001, '2013-06-23 17:30:00');
+INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date)
+VALUES (DEFAULT, 3, 2, 10101, '2013-06-23 17:56:00');
+INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date)
+VALUES (DEFAULT, 2, 2, 10216, '2013-06-23 18:01:00');
+INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date)
+VALUES (DEFAULT, 3, 2, 10520, '2013-06-23 18:11:10');
 
 
 -- Insert Test Images
@@ -161,7 +180,6 @@ VALUES (DEFAULT, 6, 'kueche.png', DEFAULT);
 
 
 -- Insert Test Comments
-
 INSERT INTO Comments(id, article_id, user_id, comment, creation_date)
 VALUES (DEFAULT, 2, 2, 'Geht nicht guenstiger? :D', DEFAULT);
 INSERT INTO Comments(id, article_id, user_id, comment, creation_date)

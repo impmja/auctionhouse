@@ -3,6 +3,7 @@ package de.auctionhouse.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -31,9 +32,96 @@ public class TimeHelper {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = format.parse(_startDate);
 			Date now = new Date();
-			return (now.getTime() - date.getTime()) < 0; 
+			System.out.println("Now: " + now.getTime());
+			System.out.println("End: " + date.getTime());
+			System.out.println("Diff: " + (date.getTime() - now.getTime()));
+			
+			return (date.getTime() - now.getTime()) <= 0; 
 		} catch (ParseException e) {
 			return true;
 		}
 	}
+	
+	static public String computeDifferenceAsString(String _endDate) {
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = format.parse(_endDate);
+			Date now = new Date();
+			
+			Calendar calendar1 = Calendar.getInstance();
+			Calendar calendar2 = Calendar.getInstance();
+			calendar1.setTime(now);
+			calendar2.setTime(date);
+			
+			long milliseconds1 = calendar1.getTimeInMillis();
+			long milliseconds2 = calendar2.getTimeInMillis();
+			long diff = milliseconds2 - milliseconds1;
+			
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			diff = diff - diffDays * (24 * 60 * 60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000);
+			diff = diff - diffHours * (60 * 60 * 1000);
+			long diffMinutes = diff / (60 * 1000);
+			diff = diff - diffMinutes * (60 * 1000);
+			long diffSeconds = diff / 1000;
+			
+			String result = "";
+			if (diffDays >= 1) {
+				if (diffDays == 1) {
+					result = "1 Tag ";
+				} else {
+					result = String.format("%d Tage ", diffDays);
+				}
+			}
+			
+			if (diffHours >= 1) {
+				if (diffHours == 1) {
+					result = result + "1 Std. ";
+				} else {
+					result = result + String.format("%d Std. ", diffHours);
+				}
+			}
+			
+			if (diffDays <= 0) {
+				if (diffMinutes >= 1) {
+					if (diffMinutes == 1) {
+						result = result + "1 Min. ";
+					} else {
+						result = result + String.format("%d Min. ", diffMinutes);
+					}
+				}
+			}
+			
+			if (diffDays <= 0 && diffHours <= 0 && diffMinutes <= 0) {
+				if (diffSeconds >= 1) {
+					if (diffSeconds == 1) {
+						result = result + "1 Sek.";
+					} else {
+						result = result + String.format("%d Sek.", diffSeconds);
+					}
+				}
+			}
+			
+			/*
+			System.out.println("\nThe Date Different Example");
+			  System.out.println("Time in milliseconds: " + diff
+			 + " milliseconds.");
+			  System.out.println("Time in seconds: " + diffSeconds
+			 + " seconds.");
+			  System.out.println("Time in minutes: " + diffMinutes 
+			+ " minutes.");
+			  System.out.println("Time in hours: " + diffHours 
+			+ " hours.");
+			  System.out.println("Time in days: " + diffDays 
+			+ " days.");
+			 
+			 System.out.println("Result: " + result);
+			 */
+			
+			return result;
+		} catch (ParseException e) {
+			return "Error: Invalid date format";
+		}
+	}
+	
 }

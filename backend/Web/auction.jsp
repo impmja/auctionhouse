@@ -1,96 +1,163 @@
 <%@page import="de.auctionhouse.controller.ArticleController"%>
 <%@page import="de.auctionhouse.controller.UserController"%>
 <%@page import="de.auctionhouse.controller.CommentController"%>
+<%@page import="de.auctionhouse.controller.BidController"%>
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
 <%@page import="de.auctionhouse.utils.CurrencyHelper"%>
 <%@page import="de.auctionhouse.utils.TimeHelper"%>
 <%@page import="de.auctionhouse.model.Image"%>
 <%@page import="de.auctionhouse.model.Comment"%>
+<%@page import="de.auctionhouse.model.Bid"%>
+
+<%@ page language="java" import="java.sql.*"%>
+<%@ page language="java" import="java.util.Date"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@ page language="java" import="java.util.Date"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>eBay 2.0 - <%=request.getParameter("passId")%></title>
-<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<jsp:include page="header.jsp" />
-<div id="container">
-<%
-	String articleIdStr = request.getParameter("passId");
-	if (articleIdStr != null) {
-		int articleId = Integer.parseInt(articleIdStr);
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>eBay 2.0 - <%=request.getParameter("articleId")%></title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<jsp:include page="header.jsp" />
+		
+		<div id="container">
+		<%
+			boolean bidError = false;
+		
+			String articleIdStr = request.getParameter("articleId");
+			if (articleIdStr != null) {
+				ArticleController ac = ArticleController.sharedInstance();
+				UserController uc = UserController.sharedInstance();
+				
+				int articleId = Integer.parseInt(articleIdStr);
+				
+				User user = null;
+				try {
+					user = uc.getLoggedIn(request);
+					
+					// place bid?
+					if (user != null && request.getParameter("place_bid") != null && request.getParameter("bid") != null) {
+						try {
+							int bid = CurrencyHelper.toCents(request.getParameter("bid"));
+							int userId = Integer.parseInt(user.getValue("id"));
+							
+							ac.bidOnArticle(userId, articleId, bid);
+						} catch (Exception e) {
+							bidError = true;
+						}
+					}
+					
+				} catch (SQLException e) {
+		 			out.println("Fehler: Ungueltige Anmeldung.");
+		 		}
 
-		ArticleController ac = ArticleController.sharedInstance();
-		Article article = ac.findById(articleId);
-		out.println("<div id=\"detail_panel\"><p>"
-				+ article.getValue("id"));
-		out.println("   " + article.getValue("title") + "</p>");
-		out.println("<p>" + article.getValue("description")
-				+ "</p><br>");
-		out.println("<p><h3>Aktueller Preis: "
-				+ CurrencyHelper
-						.toEuro(article.getValue("start_price"))
-				+ "&euro;</h3></p><br>");
-		//out.println("<p>" + article.getValue("is_Direct_Buy") + "</p>");
-
-		Image image = article.getRelation("image", Image.class);
-		out.println("<img src=\"img/" + image.getValue("uri")
-				+ "\" width=\"250\" height=\"250\">");
-
-		User seller = article.getRelation("seller", User.class);
-		out.println("<p><br>Seller: " + seller.getValue("first_name")
-				+ "</p></div>");
-
-		out.println("<div id=\"bid_panel\">");
-		//out.println("<p>Verbleibende Zeit: " + article.getValue("end_date") + "</p></div>");
-		out.println("<p>Aktuelle Zeit: " + new Date() + "</p>");
-		out.println("<p>End Zeit: " + article.getValue("end_date")
-				+ "</p>");
-		out.println("<p>Verbleibende Zeit: "
-				+ TimeHelper.computeDifferenceFromNow(article
-						.getValue("end_date")) + "</p>");
-		if (TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) {
-			out.println("<p>Zeit abgelaufen.</p>");
-		}
-
-		// Seitenpanel nur anzeigen wenn eingeloggt
-		UserController uc = UserController.sharedInstance();
-		User u = uc.getLoggedIn(request);
-		if (u != null) {
-%>
-<form action="auction.jsp" method="post"><input type="text"
-	name="bid"> <input type="submit" name="buy" value="Bid">
-</form>
-</div>
-<%
-	} else {
-			out.println("<p>Zum Bieten bitte einloggen!</p></div>");
-		}
-
-		CommentController cc = CommentController.sharedInstance();
-		out.println("<div id=\"comments_panel\"><h3>Kommentare</h3>");
-		for (Comment comments : cc.findAll(articleId, 10)) {
-			out.println("<div id=\"comment_entry\">");
-			User user = comments.getRelation("user", User.class);
-			out.println("<div id=\"comment_entry_user\"><p><h4>"
-					+ user.getValue("first_name") + "&nbsp;"
-					+ user.getValue("last_name") + "</h4>");
-			out.println(comments.getValue("comment") + "</p></div>");
-		}
-		out.println("<div\">");
-
-	} else {
-		out.println("<p>Ungültiger Artikel.</p></div>");
-	}
-%>
-
-</body>
+				// show article
+				Article article = ac.findById(articleId);
+				
+				out.println("<div id=\"detail_panel\">");
+				out.println("<h3>" + article.getValue("title") + "</h3>");
+				out.println("<p>" + article.getValue("description") + "<p><br>");
+				
+				//out.println("<p>" + article.getValue("is_Direct_Buy") + "</p>");
+		
+				Image image = article.getRelation("image", Image.class);
+				out.println("<img src=\"img/" + image.getValue("uri")
+						+ "\" width=\"300\" height=\"300\">");
+				out.println("</div>");
+				
+		
+				// Bid Panel
+				out.println("<div id=\"bid_panel\">");
+				
+				User seller = article.getRelation("seller", User.class);
+				out.println("<center><h4>Verkäufer:</h4><p>"
+						+ seller.getValue("first_name") + "&nbsp;" + seller.getValue("last_name")
+						+ "</p></center><br>");
+				
+				out.println("<p><center><h4>Startpreis:</h4><p>"
+						+ CurrencyHelper.toEuro(article.getValue("start_price"))
+						+ "&nbsp;&euro;</p></center></p><br>");
+				
+				// logged in?
+				if (user != null) {	
+					BidController bc = BidController.sharedInstance();
+					try {
+						Bid lastBid = bc.findLastByArticleId(articleId);
+						if (lastBid != null) {
+							User bidder = lastBid.getRelation("bidder", User.class);
+							out.println("<p><center><h4>Aktuelles Gebot:</h4><p>"
+									+ CurrencyHelper.toEuro(lastBid.getValue("bid")) + "&nbsp;&euro;</p>"
+									+ "<p>" + bidder.getValue("first_name") + "&nbsp;" + bidder.getValue("last_name") + "</p>"
+									+ "</center></p><br>");
+						} else {
+							out.println("<p><center><h4>Aktuelles Gebot:</h4><p>"
+									+ "Keins"
+									+ "</p></center></p><br>");
+						}
+					} catch(SQLException e) {
+						out.println("<p><center><h4>Aktuelles Gebot:</h4><p>"
+								+ "Keins"
+								+ "</p></center></p><br>");
+					}
+					
+					// Check if the auction has ended
+					if (TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) {
+						
+						out.println("<p><center><h4>Status:</h4><p>"
+								+ "Auktion ist beendet"
+								+ "</p></center></p><br>");
+						
+					} else {
+	
+						out.println("<p><center><h4>Verbleibende Zeit:</h4><p>"
+								+ TimeHelper.computeDifferenceAsString(article
+										.getValue("end_date"))
+								+ "</p></center></p><br>");
+						
+						
+						%>
+						<form action="auction.jsp" method="post">
+							<input id="bid_text" type="text" name="bid">
+							<input type="hidden" name="place_bid">
+							<input type="hidden" name="articleId" value="<%=request.getParameter("articleId")%>">
+							<input id="bid_submit" type="submit" name="buy" value="Bieten">
+						</form>
+						<%
+						
+						if (bidError) {
+							out.println("<center><h5 id=\"invalid_bid\">Ungueltiges Gebot!</h5></center>");
+						}
+					}
+				} else {
+					out.println("<p><center><h4>Hinweis:</h4><p>"
+							+ "Zum Bieten bitte anmelden!"
+							+ "</p></center></p><br>");
+				}
+				out.println("</div>");
+				
+				// Show Comments
+				CommentController cc = CommentController.sharedInstance();
+				out.println("<div id=\"comments_panel\"><h3>Kommentare</h3>");
+				for (Comment comments : cc.findAll(articleId, 10)) {
+					out.println("<div id=\"comment_entry\">");
+					User commentUser = comments.getRelation("user", User.class);
+					out.println("<div id=\"comment_entry_user\"><p><h4>"
+							+ commentUser.getValue("first_name") + "&nbsp;"
+							+ commentUser.getValue("last_name") + "</h4>");
+					out.println(comments.getValue("comment") + "</p></div>");
+				}
+		
+			} else {
+				out.println("<p>Ungültiger Artikel.</p></div>");
+			}
+			%>
+		</div>
+	</body>
 </html>

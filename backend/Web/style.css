@@ -35,7 +35,7 @@ h4 {
 #detail_panel {
 	background: lightblue;
 	width: 670px;
-	height: 500px;
+	height: 540px;
 	float: left;
 	margin-right: 2px;
 	padding: 20px;
@@ -44,9 +44,21 @@ h4 {
 #bid_panel {
 	background: #91e559;
 	width: 128px;
-	height: 500px;
+	height: 540px;
 	float: left;
 	padding: 20px;
+}
+
+#invalid_bid {
+	color: red;
+}
+
+#impressum {
+	background-color: #ffdd41;
+	width: 860px;
+	padding: 10px;
+	float: left;
+	margin-top: 2px;
 }
 
 #comments_panel {
@@ -82,6 +94,20 @@ td {
 	position: relative;
 	left: 450px;
 	margin-top: -90px;
+}
+
+#bid_text { 
+	width: 120px;
+	heigth: 40px;
+	padding:4px;
+}
+
+#bid_submit { 
+	width: 132px;
+	heigth: 50px;
+    margin-top:6px;	
+    background: #ffdd41;
+    font-size: 12pt;
 }
 
 a {
