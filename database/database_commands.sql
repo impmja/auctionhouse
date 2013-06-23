@@ -84,7 +84,6 @@ CREATE TABLE Bid (
 GRANT ALL PRIVILEGES ON Bid TO auctionhouse_root;
 GRANT ALL PRIVILEGES ON SEQUENCE bid_id_seq TO auctionhouse_root;
 
--- No Test Data, will be created in use
 
 
 -- Create Purchases Table
@@ -143,7 +142,7 @@ VALUES (DEFAULT, 3, 4, 'Fish & Chips', 'Njom njom njom', TRUE, 300, '2013-06-25 
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
 VALUES (DEFAULT, 5, 5, 'Puppies', 'Really sweet puppies for sale!', TRUE, 5000, '2013-06-24 12:00:00', DEFAULT);
 INSERT INTO Article(id, seller_id, image_id, title, description, is_direct_buy, start_price, end_date, creation_date)
-VALUES (DEFAULT, 6, 6, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-23 20:30:00', DEFAULT);
+VALUES (DEFAULT, 6, 6, 'Flash-Kueche', 'Verkaufe meine einzigartige Flash-Kueche mit Rezepten zum Nachkochen ;)', FALSE, 100, '2013-06-23 23:30:00', DEFAULT);
 
 
 -- Insert Test Bids

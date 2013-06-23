@@ -2,6 +2,7 @@
 <%@page import="de.auctionhouse.controller.UserController"%>
 <%@page import="de.auctionhouse.controller.CommentController"%>
 <%@page import="de.auctionhouse.controller.BidController"%>
+<%@page import="de.auctionhouse.controller.PurchasesController"%>
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Article"%>
 <%@page import="de.auctionhouse.utils.CurrencyHelper"%>
@@ -9,6 +10,7 @@
 <%@page import="de.auctionhouse.model.Image"%>
 <%@page import="de.auctionhouse.model.Comment"%>
 <%@page import="de.auctionhouse.model.Bid"%>
+<%@page import="de.auctionhouse.model.Purchase"%>
 
 <%@ page language="java" import="java.sql.*"%>
 <%@ page language="java" import="java.util.Date"%>
@@ -37,20 +39,29 @@
 				UserController uc = UserController.sharedInstance();
 				
 				int articleId = Integer.parseInt(articleIdStr);
+				Article article = ac.findById(articleId);
 				
 				User user = null;
 				try {
 					user = uc.getLoggedIn(request);
-					
+			
 					// place bid?
-					if (user != null && request.getParameter("place_bid") != null && request.getParameter("bid") != null) {
+					if (!TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) { 
+						if (user != null && request.getParameter("place_bid") != null && request.getParameter("bid") != null) {
+							try {
+								int userId = Integer.parseInt(user.getValue("id"));
+								ac.bidOnArticle(userId, articleId, CurrencyHelper.toCents(request.getParameter("bid")));
+							} catch (Exception e) {
+								bidError = true;
+							}
+						}
+					} else {
+						// ned to set the article as purchased?
+						PurchasesController pc = PurchasesController.sharedInstance();
 						try {
-							int bid = CurrencyHelper.toCents(request.getParameter("bid"));
-							int userId = Integer.parseInt(user.getValue("id"));
-							
-							ac.bidOnArticle(userId, articleId, bid);
+							pc.addPurchase(articleId);
 						} catch (Exception e) {
-							bidError = true;
+							System.out.println(e.getMessage());
 						}
 					}
 					
@@ -59,8 +70,6 @@
 		 		}
 
 				// show article
-				Article article = ac.findById(articleId);
-				
 				out.println("<div id=\"detail_panel\">");
 				out.println("<h3>" + article.getValue("title") + "</h3>");
 				out.println("<p>" + article.getValue("description") + "<p><br>");
@@ -77,7 +86,7 @@
 				out.println("<div id=\"bid_panel\">");
 				
 				User seller = article.getRelation("seller", User.class);
-				out.println("<center><h4>Verkäufer:</h4><p>"
+				out.println("<center><h4>Verk&auml;ufer:</h4><p>"
 						+ seller.getValue("first_name") + "&nbsp;" + seller.getValue("last_name")
 						+ "</p></center><br>");
 				
@@ -85,8 +94,36 @@
 						+ CurrencyHelper.toEuro(article.getValue("start_price"))
 						+ "&nbsp;&euro;</p></center></p><br>");
 				
-				// logged in?
-				if (user != null) {	
+				
+				// Check if the auction has ended
+				if (TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) {
+					
+					PurchasesController pc = PurchasesController.sharedInstance();
+					try {
+						Purchase purchase = pc.findByArticleId(articleId);
+						if (purchase != null) {
+							User buyer = purchase.getRelation("user", User.class);
+							
+							out.println("<p><center><h4>Kaufpreis:</h4><p>"
+									+ CurrencyHelper.toEuro(purchase.getValue("price"))
+									+ "&nbsp;&euro;</p></center></p><br>");
+							
+							out.println("<center><h4>K&auml;ufer:</h4><p>"
+									+ buyer.getValue("first_name") + "&nbsp;" + buyer.getValue("last_name")
+									+ "</p></center><br>");	
+						}
+					} catch(SQLException e) {
+						out.println("<center><h4>K&auml;ufer:</h4><p>"
+								+ "Unbekannt."
+								+ "</p></center><br>");	
+					}
+					
+					out.println("<p><center><h4>Hinweis:</h4><p>"
+							+ "Auktion ist beendet."
+							+ "</p></center></p><br>");
+					
+				} else {
+
 					BidController bc = BidController.sharedInstance();
 					try {
 						Bid lastBid = bc.findLastByArticleId(articleId);
@@ -107,38 +144,29 @@
 								+ "</p></center></p><br>");
 					}
 					
-					// Check if the auction has ended
-					if (TimeHelper.checkIfTimeIsOver(article.getValue("end_date"))) {
-						
-						out.println("<p><center><h4>Status:</h4><p>"
-								+ "Auktion ist beendet"
-								+ "</p></center></p><br>");
-						
-					} else {
-	
-						out.println("<p><center><h4>Verbleibende Zeit:</h4><p>"
-								+ TimeHelper.computeDifferenceAsString(article
-										.getValue("end_date"))
-								+ "</p></center></p><br>");
-						
-						
-						%>
-						<form action="auction.jsp" method="post">
-							<input id="bid_text" type="text" name="bid">
-							<input type="hidden" name="place_bid">
-							<input type="hidden" name="articleId" value="<%=request.getParameter("articleId")%>">
-							<input id="bid_submit" type="submit" name="buy" value="Bieten">
-						</form>
-						<%
-						
-						if (bidError) {
-							out.println("<center><h5 id=\"invalid_bid\">Ungueltiges Gebot!</h5></center>");
-						}
-					}
-				} else {
-					out.println("<p><center><h4>Hinweis:</h4><p>"
-							+ "Zum Bieten bitte anmelden!"
+					out.println("<p><center><h4>Verbleibende Zeit:</h4><p>"
+							+ TimeHelper.computeDifferenceAsString(article
+									.getValue("end_date"))
 							+ "</p></center></p><br>");
+					
+					if (user != null) {
+					%>
+					<form action="auction.jsp" method="post">
+						<input id="bid_text" type="text" name="bid">
+						<input type="hidden" name="place_bid">
+						<input type="hidden" name="articleId" value="<%=request.getParameter("articleId")%>">
+						<input id="bid_submit" type="submit" name="buy" value="Bieten">
+					</form>
+					<%
+					} else {
+						out.println("<p><center><h4>Hinweis:</h4><p>"
+								+ "Zum Bieten bitte anmelden!"
+								+ "</p></center></p><br>");
+					}
+					
+					if (bidError) {
+						out.println("<center><h5 id=\"invalid_bid\">Ungueltiges Gebot!</h5></center>");
+					}
 				}
 				out.println("</div>");
 				

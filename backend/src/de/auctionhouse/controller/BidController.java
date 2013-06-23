@@ -44,13 +44,8 @@ public class BidController {
 	public void placeBid(int _bidderId, int _articleId, int _bidValue) throws Exception {
 		Statement stmt = ConnectionController.sharedInstance().newStatement();
 		
-		String query = "INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date) " +
-				"VALUES (DEFAULT, " + _bidderId + "," + _articleId + "," + _bidValue + "," + "DEFAULT)";
-		//System.out.println(query);
 		stmt.executeUpdate("INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date) " +
 							"VALUES (DEFAULT, " + _bidderId + "," + _articleId + "," + _bidValue + "," + "DEFAULT)");
-		
-		//INSERT INTO Bid(id, bidder_id, article_id, bid, bid_date) VALUES (DEFAULT, 2, 1, 121, DEFAULT);
 	}
 	
 }

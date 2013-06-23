@@ -28,7 +28,6 @@ public class CurrencyHelper {
 	static public int toCents(String _value) {
 		String parsedBid = _value.replaceAll("\\.", "");
 		parsedBid = parsedBid.replaceAll("\\,", "");
-		System.out.println(parsedBid);
 		return Integer.parseInt(parsedBid);
 	}
 }

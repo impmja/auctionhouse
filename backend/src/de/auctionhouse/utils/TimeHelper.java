@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
-// TODO: Einbinden? http://joda-time.sourceforge.net/
 public class TimeHelper {
 
 	static public Date computeDifference(Date _startDate, Date _endDate) {
@@ -32,10 +30,11 @@ public class TimeHelper {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = format.parse(_startDate);
 			Date now = new Date();
+			/*
 			System.out.println("Now: " + now.getTime());
 			System.out.println("End: " + date.getTime());
 			System.out.println("Diff: " + (date.getTime() - now.getTime()));
-			
+			*/
 			return (date.getTime() - now.getTime()) <= 0; 
 		} catch (ParseException e) {
 			return true;
@@ -101,22 +100,6 @@ public class TimeHelper {
 					}
 				}
 			}
-			
-			/*
-			System.out.println("\nThe Date Different Example");
-			  System.out.println("Time in milliseconds: " + diff
-			 + " milliseconds.");
-			  System.out.println("Time in seconds: " + diffSeconds
-			 + " seconds.");
-			  System.out.println("Time in minutes: " + diffMinutes 
-			+ " minutes.");
-			  System.out.println("Time in hours: " + diffHours 
-			+ " hours.");
-			  System.out.println("Time in days: " + diffDays 
-			+ " days.");
-			 
-			 System.out.println("Result: " + result);
-			 */
 			
 			return result;
 		} catch (ParseException e) {

@@ -74,16 +74,14 @@ public class ArticleController {
 		
 		BidController bc = BidController.sharedInstance();
 		Bid lastBid = bc.findLastByArticleId(_articleId);
-		int currentBid =  Integer.parseInt(lastBid.getValue("bid"));
-		if (currentBid >= _bidValue) {
-			throw new Exception("Bid to low.");	
+		if (lastBid != null) {
+			int currentBid =  Integer.parseInt(lastBid.getValue("bid"));
+			if (currentBid >= _bidValue) {
+				throw new Exception("Bid to low.");	
+			}
 		}
 		
 		bc.placeBid(_bidderId, _articleId, _bidValue);
 	}
 	
-	public void assignLastBidder() {
-		
-		
-	}
 }

@@ -1,6 +1,8 @@
 <%@page import="de.auctionhouse.controller.ArticleController"%>
+<%@page import="de.auctionhouse.controller.BidController"%>
 <%@page import="de.auctionhouse.model.Article"%>
 <%@page import="de.auctionhouse.model.User"%>
+<%@page import="de.auctionhouse.model.Bid"%>
 <%@page import="de.auctionhouse.utils.CurrencyHelper"%>
 <%@ page language="java" import="java.sql.*"%>
 
@@ -19,18 +21,21 @@
 		<jsp:include page="header.jsp" />
 		<%
 			ArticleController ac = ArticleController.sharedInstance();
+			BidController bc = BidController.sharedInstance();
+		
 			int counter = 1;
 		
 			out.println("<table>");
 			try {
 				for (Article article : ac.findAll()) {
-					/*
-					out.println("<div id=\"" + (counter % 2 == 0 ? "even_tr" : "odd_tr") + "\">");
-				
-					out.println("</div>");
-					*/
 					
+					int articleId = Integer.parseInt(article.getValue("id"));
 					User seller = article.getRelation("seller", User.class);
+					Bid currentBid = bc.findLastByArticleId(articleId);
+					String currentBidStr = "";
+					if (currentBid != null) {
+						currentBidStr = "<p>" + CurrencyHelper.toEuro(currentBid.getValue("bid")) + "&nbsp;&euro;</p>";
+					}
 					
 					out
 							.println("<form id=\""
@@ -40,7 +45,6 @@
 									+ "\" ><td><a href=\"javascript: submitform("
 									+ counter
 									+ ")\">"
-									//+ article.getValue("id") + "</a></td><td><a href=\"javascript: submitform(" + counter +")\">"
 									+ article.getValue("title")
 									+ "</a></td><td><a href=\"javascript: submitform("
 									+ counter
@@ -53,9 +57,9 @@
 									+ "</a></td><td><a href=\"javascript: submitform("
 									+ counter
 									+ ")\">"
-									+ CurrencyHelper.toEuro(article
-											.getValue("start_price"))
-									+ "&nbsp;&euro;</a></td></tr><input type=\"hidden\" name=\"articleId\" value="
+									+ CurrencyHelper.toEuro(article.getValue("start_price")) + "&nbsp;&euro;</a>"
+									+ currentBidStr
+									+ "</td></tr><input type=\"hidden\" name=\"articleId\" value="
 									+ article.getValue("id") + "></form>");
 					
 					
