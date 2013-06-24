@@ -31,9 +31,7 @@ public class BidController {
 											"WHERE b.article_id = " + _articleId + " " +
 											"ORDER by b.bid_date DESC " + 
 											"LIMIT 1");
-		
-		//"SELECT b.id, b.bidder_id AS user_id, b.article_id AS article_id, b.bid, b.bid_date FROM Bid AS b LEFT JOIN Users AS u ON b.bidder_id = u.id LEFT JOIN Article AS a ON b.article_id = a.id WHERE b.article_id = 1 ORDER BY b.bid_date;
-		
+
 		if (rs.next()) {
 			return new Bid(rs);	
 		}
