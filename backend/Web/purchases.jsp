@@ -16,7 +16,7 @@
 		<title>My Purchases</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
-	<body>
+	<body><div id="wrapper">
 	
 	<jsp:include page="header.jsp" />
 
@@ -64,6 +64,6 @@
 		  document.getElementById(_id).submit();
 		}
 		</script>
-
+</div>
 	</body>
 </html>

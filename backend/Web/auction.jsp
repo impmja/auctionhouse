@@ -27,6 +27,7 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
+	<div id="wrapper">
 		<jsp:include page="header.jsp" />
 		
 		<div id="container">
@@ -186,6 +187,6 @@
 				out.println("<p>Ungültiger Artikel.</p></div>");
 			}
 			%>
-		</div>
+		</div></div>
 	</body>
 </html>

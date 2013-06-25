@@ -1,9 +1,12 @@
 <%@page import="de.auctionhouse.controller.ArticleController"%>
 <%@page import="de.auctionhouse.controller.BidController"%>
+<%@page import="de.auctionhouse.controller.PurchasesController"%>
 <%@page import="de.auctionhouse.model.Article"%>
 <%@page import="de.auctionhouse.model.User"%>
 <%@page import="de.auctionhouse.model.Bid"%>
+<%@page import="de.auctionhouse.model.Purchase"%>
 <%@page import="de.auctionhouse.utils.CurrencyHelper"%>
+
 <%@ page language="java" import="java.sql.*"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -17,21 +20,36 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
-	
+	<div id="wrapper">
 		<jsp:include page="header.jsp" />
+
 		<%
 			ArticleController ac = ArticleController.sharedInstance();
 			BidController bc = BidController.sharedInstance();
-		
+			PurchasesController pc = PurchasesController.sharedInstance();
+			
 			int counter = 1;
 		
 			out.println("<table>");
+			out.println("<tr class=\"head_line\"><td>Titel</td><td>Beschreibung</td><td>Verk&auml;ufer</td><td>Startpreis /<br/>Aktuelles Preis</td></tr>");
+			
 			try {
 				for (Article article : ac.findAll()) {
 					
 					int articleId = Integer.parseInt(article.getValue("id"));
 					User seller = article.getRelation("seller", User.class);
 					Bid currentBid = bc.findLastByArticleId(articleId);
+					Purchase currentPurchase = null;
+					try {
+						// does a purchase for the current article exists, if so, just dont show it
+						currentPurchase = pc.findByArticleId(articleId);
+						if (currentPurchase != null) {
+							continue;
+						}
+					} catch(SQLException e) {
+						// just ignore this
+					}
+					
 					String currentBidStr = "";
 					if (currentBid != null) {
 						currentBidStr = "<p>" + CurrencyHelper.toEuro(currentBid.getValue("bid")) + "&nbsp;&euro;</p>";
@@ -79,5 +97,5 @@
 			document.getElementById(_id).submit();
 		}
 		</script>
-	</body>
+	</div></body>
 </html>
