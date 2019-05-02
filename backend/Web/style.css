@@ -30,14 +30,14 @@ h4 {
 
 #header_title {
 	width: 600px;
-	heigth: 80px;
+	height: 80px;
 	float: left;
 }
 
 #header_tool_bar {
 	margin-top: 0px;
 	width: 600px;
-	heigth: 40px;
+	height: 40px;
 	float: left;
 }
 
@@ -62,7 +62,7 @@ h4 {
 	margin-right: 0px;
 	
 	width: 120px;
-	heigth: 120px;
+	height: 120px;
 	float: right;
 }
 
@@ -77,7 +77,7 @@ h4 {
 	margin-bottom: 4px;
 	
 	width: 600px;
-	heigth: 40px;
+	height: 40px;
 	float: left;
 }
 
@@ -179,13 +179,13 @@ td {
 
 #bid_text { 
 	width: 120px;
-	heigth: 40px;
+	height: 40px;
 	padding:4px;
 }
 
 #bid_submit { 
 	width: 132px;
-	heigth: 60px;
+	height: 60px;
     margin-top:6px;	
     background: #70AEE5;
     border-style: none;
